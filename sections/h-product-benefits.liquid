@@ -1,0 +1,463 @@
+<style>
+.product_benefits {
+  text-align: center;
+  padding: {{section.settings.section_height | append: 'px'}} 0px;
+  background-color: {{section.settings.section_background}};
+}
+
+.product_benefits h3 {
+  font-size: 22px;
+  text-transform: uppercase;
+}
+
+.product_benefits p {
+  font-size: 14px;
+  color: #7e7e7e;
+  padding-bottom: 40px;
+}
+
+.product_benefits--container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.product_benefits--container .left_column {
+  display: flex;
+  flex-direction: column;
+  max-width: 425px;
+}
+
+.left_column--wrapper {
+  padding-top: 60px;
+  text-align: center;
+}
+
+.left_column--icon img {
+  height: 64px;
+  width: 64px;
+  margin: 0 auto;
+  margin-bottom: 25px;
+}
+
+.left_column--text-box .text_box-rule {
+  display: none;
+}
+
+.right_column {
+  display: flex;
+  flex-direction: column;
+  max-width: 425px;
+}
+
+.right_column .right_column--wrapper {
+  padding-top: 60px;
+  text-align: center;
+}
+
+.right_column--icon img {
+  height: 64px;
+  width: 64px;
+  margin: 0 auto;
+  margin-bottom: 25px;
+}
+
+.right_column--text-box .text_box-rule {
+  display: none;
+}
+
+#product-benefits--{{ section.id }} {
+  display: none;
+  overflow: hidden;
+}
+@media screen and (max-width:679px) {
+
+  #product-benefits--{{ section.id }} {
+    display: block;
+    
+  }
+
+  .product_benefits--container .left_column {
+    display: none;
+  }
+
+  .product_benefits--container .right_column {
+    display: none;
+  }
+
+  .product-benefits--img img{
+    width: 100%;
+    max-width: 48px;
+  }
+
+  .swiper-slide--description {
+    max-width: 400px;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .product-benefits--description h3 {
+    font-size: 18px;
+  }
+}
+
+@media screen and (min-width: 968px) {
+
+  .product_benefits--container {
+    flex-direction: row;
+    gap: 25px;
+  }
+
+  .product_benefits--container .middle_column {
+    width: 50%;
+  }
+  .product_benefits--container .left_column {
+    display: flex;
+    flex-direction: column;
+    max-width: unset;
+    width: 33%;
+  }
+
+  .product_benefits--container .right_column {
+    display: flex;
+    flex-direction: column;
+    max-width: unset;
+    width: 33%;
+  }
+
+  .left_column--wrapper {
+    padding-top: 60px;
+    padding-left: 80px;
+    text-align: right;
+  }
+
+  .left_column--icon, .right_column--icon {
+    margin-bottom: 25px;
+  }
+
+  .left_column--icon img {
+    height: 64px;
+    width: 64px;
+    margin-left: auto;
+  }
+
+  .right_column--icon img {
+    height: 64px;
+    width: 64px;
+  }
+
+  .left_column--text-box .text_box-rule {
+    display: block;
+    margin-left: auto;
+    width: 200px;
+    height: 1px;
+    background-color: #7e7e7e;
+  }
+
+  .right_column .right_column--wrapper {
+      padding-top: 60px;
+      padding-right: 80px;
+      text-align: left;
+  }
+
+  .right_column--text-box .text_box-rule {
+    display: block;
+    margin-right: auto;
+    width: 200px;
+    height: 1px;
+    background-color: #7e7e7e;
+  }
+}
+
+.middle_column--image img {
+  max-width: 100%;
+  max-height: 100%;
+  width: 200px;
+}
+
+@media screen and (min-width: 768px) {
+  .middle_column--image img {
+    width: 100%;
+    max-width: 450px;
+  }
+}
+
+.left_column--text-box h3,
+.right_column--text-box h3,
+.product-benefits--description h3 {
+  color: {{ section.settings.block_heading_color }};
+}
+
+.left_column--text-box p,
+.right_column--text-box p,
+.product-benefits--description p {
+  color: {{ section.settings.block_text_color }};
+}
+</style>
+
+{% liquid
+  assign leftColumn = section.blocks | where: 'type', 'left_column'
+  assign rightColumn = section.blocks | where: 'type', 'right_column'
+%}
+
+<section class="product_benefits">
+  <h1 style="text-align: center;">{{ section.settings.title }}</h1>
+  <div class="product_benefits--container">
+    <div class="left_column">
+      {% for block in leftColumn %}
+      <div class="left_column--wrapper">
+        <div class="left_column--icon">
+          {% if block.settings.icon != blank %}
+            <img src="{{ block.settings.icon | img_url: 'master' }}" alt="">
+          {% else %}
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+        <div class="left_column--text-box">
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.description }}</p>
+            <span class="text_box-rule"></span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="middle_column">
+      <div class="middle_column--image">
+        {% if section.settings.section_image != blank %}
+          <img src="{{ section.settings.section_image  | img_url: 'master'}}" alt="">
+        {% else %}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      </div>
+    </div>
+    <div class="right_column">
+      {% for block in rightColumn %}
+      <div class="right_column--wrapper">
+        <div class="right_column--icon">
+          {% if block.settings.icon != blank %}
+            <img src="{{ block.settings.icon | img_url: 'master' }}" alt="">
+          {% else %}
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+        <div class="right_column--text-box">
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.description }}</p>
+          <span class="text_box-rule"></span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+<haciendola-carousel id="product-benefits--{{ section.id }}" 
+  style="
+  --dots-color: {{ section.settings.dots-color }};
+  --active-dot-color: {{ section.settings.active-dot-color }};
+  "
+>
+  {% for block in section.blocks %}
+    <div class="product-benefits--container">
+      <div class="product-benefits--img">
+        {% if block.settings.icon != blank %}
+          <img src="{{ block.settings.icon | img_url: 'master' }}" alt="">
+        {% else %}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      </div>
+      <div class="product-benefits--description">
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.description }}</p>
+          <span class="text_box-rule"></span>
+      </div>
+    </div>
+  {% endfor %}
+</haciendola-carousel>
+</section>
+
+
+<script type="module" defer>
+  const slider = document.getElementById(`product-benefits--{{ section.id }}`)
+  slider.configure({
+    autoplay: {{ section.settings.enable-autoplay }},
+    slideDuration: {{ section.settings.autoplay-duration }},
+    slidesPerView: 1,
+    slidesToScroll: 1,
+    gap: 40,
+    loop: true,
+    controls: {
+      arrows: {{ section.settings.enable-arrows-mobile }},
+      dots: {{ section.settings.enable-dots-mobile }}
+    },
+    dotsSettings: {
+      renderMode: 'flow'
+    }
+  })
+</script>
+
+{% schema %}
+{
+  "name": "Product benefits",
+  "class": "product-benefits",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Beneficios"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "default": "#000",
+      "label": "Heading color"
+    },
+    {
+      "type": "image_picker",
+      "id": "section_image",
+      "label": "Section image"
+    },
+    {
+      "type": "color",
+      "id": "section_background",
+      "label": "Background color",
+      "default": "#FFF"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Section padding (top & bottom)",
+      "unit": "px",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Block Text colors"
+    },
+    {
+      "type": "color",
+      "id": "block_heading_color",
+      "label": "Heading color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "block_text_color",
+      "label": "Text color",
+      "default": "#000"
+    },
+    {
+      "type": "header",
+      "content": "Configuraciones de carrusel"
+    },
+    {
+      "type": "header",
+      "content": "Autoplay"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable-autoplay",
+      "label": "Activar el autoplay",
+      "info": "Solo funciona en la vista en vivo; está desactivado para el design mode (customizer)"
+    },
+    {
+      "type": "range",
+      "id": "autoplay-duration",
+      "label": "Duración de los slides",
+      "unit": "s",
+      "min": 0.5,
+      "max": 6,
+      "step": 0.5,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Controles"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable-dots-mobile",
+      "label": "Habilitar paginación en móviles",
+      "default": true,
+      "info": "Son los puntitos clickeables que aparecen abajo"
+    },
+    {
+      "type": "color",
+      "id": "dots-color",
+      "label": "Color de las páginas",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "color",
+      "id": "active-dot-color",
+      "label": "Color de la página activa",
+      "default": "#333"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable-arrows-mobile",
+      "label": "Habilitar flechas en móviles",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "left_column",
+      "name": "Left column",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Icon title",
+          "default": "Lorem ipsum"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "label",
+          "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer elit turpis, vulputate id feugiat non, hendrerit et tortor."
+        }
+      ]
+    },
+    {
+      "type": "right_column",
+      "name": "Right column",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Icon title",
+          "default": "Lorem ipsum"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "label",
+          "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer elit turpis, vulputate id feugiat non, hendrerit et tortor."
+        }
+      ]
+    }
+  ],
+  "presets":[
+    {
+      "name": "Product benefits"
+    }
+  ]
+}
+{% endschema %}

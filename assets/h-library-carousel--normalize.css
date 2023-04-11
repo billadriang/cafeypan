@@ -1,0 +1,5 @@
+haciendola-carousel .embla__slide {
+  padding: 0 !important;
+  min-width: var(--slide-width) !important;
+  flex: unset;
+}

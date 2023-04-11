@@ -1,0 +1,73 @@
+{% for block in blocks %}
+  {% case block.type %}
+      {% when 'two_level_menu' %}
+          {% if block.settings.menu.levels > 1 %}
+              <div class="two-level-menu__wrapper">
+                  <div id="two-level-menu__first-level-{{ block.id }}" class="first-level">
+                      {%- for link in block.settings.menu.links -%}
+                          <a href="{{ link.url }}"
+                             class="two-level-menu__first-level-link"
+                             data-two-level-menu-index="{{ forloop.index }}">
+                              <span {%- if link.current %} class="header__active-menu-item"{% endif %}>
+                                  {{ link.title | escape }}
+                              </span>
+                          </a>
+                      {% endfor %}
+                  </div>
+                  <div id="two-level-menu__second-level-{{ block.id }}" class="second-level">
+                      {%- for link in block.settings.menu.links -%}
+                          <div id="second-level__menu-{{ forloop.index }}" class="second-level__links {% if forloop.index == 1 %}active{% endif %}">
+                              {% for subLink in link.links %}
+                                  {% if subLink.object.image %}
+                                      <div class="second-level__item">
+                                          <img src="{{ subLink.object.image | image_url: width: 300 }}" style="width: 100%">
+                                          <span>{{ subLink.object.title }}</span>
+                                      </div>
+                                  {% endif %}
+                              {% endfor %}
+                          </div>
+                      {% endfor %}
+                  </div>
+              </div>
+{% else %}
+Debes elegir un menú con más de un nivel
+{% endif %}
+  {% endcase %}
+{% endfor %}
+
+<style>
+{% for block in blocks %}
+  #two-level-menu__first-level-{{ block.id }} {
+      width: {{ block.settings.first_level_width }}px;
+  }
+  #two-level-menu__second-level-{{ block.id }} .second-level__item {
+      width: {{ 100 |  divided_by: block.settings.collections_per_row }}%;
+  }
+{% endfor %}
+.two-level-menu__wrapper {
+  display: flex;
+  width: 100%;
+}
+.first-level {
+  display: flex;
+  flex-direction: column;
+}
+.first-level > a:hover {
+  background: white;
+}
+.second-level {
+  flex: 1;
+}
+.second-level__links.active {
+  display: flex;
+}
+.second-level__links {
+  display: none;
+  justify-content: space-around;
+}
+.second-level__item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid;
+}
+</style>

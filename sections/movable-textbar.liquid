@@ -1,0 +1,238 @@
+{% style %}
+#shopify-section-{{ section.id }} {
+	background-color: {{ section.settings.sectionbg }};
+    border-top: 1px solid;
+	border-bottom: 1px solid;
+	border-bottom-color: {{ section.settings.bordercolor }};
+    border-top-color: {{ section.settings.bordercolor }};
+}
+#shopify-section-{{ section.id }} .marqueebar{
+  padding: 0;
+}
+{% if section.settings.height %}
+#shopify-section-{{ section.id }} .marqueebar {
+  height: {{ section.settings.height }}px;
+}
+{% endif %}
+
+#shopify-section-{{ section.id }} .frontimage {
+  height: {{ section.settings.icon_height }}px;
+}
+{% for block in section.blocks %}
+#shopify-section-{{ section.id }} .marqueebar-{{ block.id }} .marqueebar__mensaje {
+    color: {{ block.settings.text_color }};
+  }
+{% endfor %}
+@media only screen and (min-width: 750px) {
+  #shopify-section-{{ section.id }}.index-section {
+      padding: 0 !important;
+  }
+}
+
+#shopify-section-{{ section.id }} .marqueebar__mensaje ul li span {
+  position: relative;
+  left: 10px;
+}
+
+.flexit {
+  display: flex;
+   align-items: center;
+}
+.flexitinline {
+  display: inline-flex;
+   align-items: center;
+}
+
+.marqueebar {
+   position: relative;
+   overflow: hidden;
+   align-items: center;
+}
+.marqueebar .marqueebar__wrapper {
+ flex-direction: row;
+ flex-wrap: nowrap;
+ height: 100%;
+ align-content: center;
+ animation: slide 100s infinite alternate both linear;
+}
+.marqueebar__item {
+ justify-content: space-between;
+ margin: 0 15px;
+ width: max-content;
+}
+.marqueebar .frontimage {
+  height: auto;
+}
+.marqueebar .marqueebar__mensaje {
+ width: max-content;
+ font-weight: 400;
+ text-transform: uppercase;
+ margin-left: 4px;
+ white-space: nowrap;
+ flex: 1;
+}
+
+#marqueebar-{{ section.id }} {
+  margin: 0 !important;
+}
+
+@keyframes slide {
+   0% {
+       transform: translate3d(-400vw, 0, 0);
+   }
+   100% {
+       transform: translate3d(0, 0, 0);
+   }
+}
+
+@keyframes slideInvert {
+   0% {
+       transform: translate3d(calc(-100% + 1700vw), 0, 0);
+   }
+   100% {
+       transform: translate3d(calc(-100% + 100vw), 0, 0);
+   }
+}
+
+{% endstyle %}
+<div id="marqueebar-{{ section.id }}" class="marqueebar marqueebar-{{ section.id }}" style="margin: 0 auto;">
+  <div class="flexitinline marqueebar__wrapper">
+  {% for i in (1..40) %}
+
+    {% for block in section.blocks %}
+    <div class="flexit marqueebar__item marqueebar-{{ block.id }}" {{ block.shopify_attributes }}>
+      {% if block.settings.iconimage != blank %}
+      {%- assign img_url = block.settings.iconimage | img_url: '40x40'  -%}
+        <img
+          class="frontimage"
+          src="{{ img_url }}"
+          alt="{{ block.settings.iconimage.alt | escape }}">
+      {% endif %}
+      <div class="marqueebar__mensaje rich-text__text--{{ section.settings.text_size }}">
+        <ul>
+          <li><span>{{ block.settings.mensaje }}</span></li>
+        </ul>
+      </div>
+    </div>
+    {% endfor %}
+  {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Movable Announcement Bar",
+	"class": "index-section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "sectionbg",
+      "label": "Background color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "bordercolor",
+      "label": "Border color"
+    },
+    {
+      "type": "select",
+      "id": "text_size",
+      "label": {
+        "en": "Size",
+        "es": "Tamaño"
+      } ,
+      "default": "medium",
+      "options": [
+        {
+          "label": {
+            "en": "Small",
+            "es": "Pequeño"
+          },
+          "value": "small"
+        },
+        {
+          "label": {
+            "en": "Medium",
+            "es": "Mediano"
+          },
+          "value": "medium"
+        },
+        {
+          "label": {
+            "en": "Large",
+            "es": "Grande"
+          },
+          "value": "large"
+        }
+      ]
+    },
+    {
+        "type": "range",
+        "id": "height",
+        "label": {
+          "en": "Height",
+          "es": "Altura"
+        },
+        "min": 30,
+        "max": 80,
+        "step": 2,
+        "unit": {
+          "en": "px",
+          "es": "px"
+        },
+        "default": 40
+    },
+    {
+      "type": "range",
+      "id": "icon_height",
+      "label": {
+        "en": "Icon height",
+        "es": "Altura de icono"
+      },
+      "min": 20,
+      "max": 40,
+      "step": 2,
+      "unit": {
+        "en": "px",
+        "es": "px"
+      },
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Slides",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "iconimage",
+          "label": "Icono"
+        },
+        {
+          "type": "text",
+          "id": "mensaje",
+          "label": "Mensaje"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#fff"
+        }
+      ]
+    }
+  ],
+	"presets": [
+    {
+      "name": "Movable Announcement bar",
+      "blocks": [
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,67 @@
+:root {
+  --haciendola-animation-duration: 1s;
+}
+
+.shopify-section,
+.haciendola-animate:not(.haciendola-animate--childrens),
+.haciendola-animate--childrens > * {
+  opacity: 0;
+  transition: all .6s;
+}
+
+:not(.haciendola-animate--childrens).haciendola-animate--fadeUp,
+:not(.haciendola-animate--childrens).haciendola-animate--fadeDown,
+.haciendola-animate--childrens.haciendola-animate--fadeUp > *,
+.haciendola-animate--childrens.haciendola-animate--fadeDown > *,
+.haciendola-animate--global-fadeUp .shopify-section:not([class*="haciendola--animate"]):not(.haciendola-animate--show) {
+  opacity: 0;
+}
+
+.shopify-section.haciendola-animate--show,
+.haciendola-animate:not(.haciendola-animate--childrens).haciendola-animate--show,
+.haciendola-animate.haciendola-animate--childrens > .haciendola-animate--show {
+  animation: fade var(--haciendola-animation-duration) forwards;
+}
+
+.haciendola-animate--global-fadeUp .shopify-section.haciendola-animate--show,
+.haciendola-animate:not(.haciendola-animate--childrens).haciendola-animate--fadeUp.haciendola-animate--show,
+.haciendola-animate.haciendola-animate--childrens.haciendola-animate--fadeUp > .haciendola-animate--show {
+  animation: fadeUp var(--haciendola-animation-duration) forwards;
+}
+.haciendola-animate--global-fadeDown .shopify-section.haciendola-animate--show,
+.haciendola-animate:not(.haciendola-animate--childrens).haciendola-animate--fadeDown.haciendola-animate--show,
+.haciendola-animate.haciendola-animate--childrens.haciendola-animate--fadeDown > .haciendola-animate--show {
+  animation: fadeDown var(--haciendola-animation-duration) forwards;
+}
+.haciendola-animate.haciendola-animate--childrens {
+  opacity: 1 !important;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

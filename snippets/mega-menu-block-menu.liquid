@@ -1,0 +1,18 @@
+<div class="nav-link-container">
+    <ul>
+        {%- for link in menu.links -%}
+            <li>
+                {%- if link.links != blank -%}
+                    <a href="{{ link.url }}" class="header__menu-item header__menu-item list-menu__item link link--text focus-inset"{% if link.current %} aria-current="page"{% endif %}>
+                        <span {%- if link.current %} class="header__active-menu-item"{% endif %}>{{ link.title | escape }}</span>
+                    </a>
+                    {% render 'mega-menu-block-menu', menu: link %}
+                {% else %}
+                    <a href="{{ link.url }}" class="header__menu-item header__menu-item list-menu__item link link--text focus-inset"{% if link.current %} aria-current="page"{% endif %}>
+                        <span {%- if link.current %} class="header__active-menu-item"{% endif %}>{{ link.title | escape }}</span>
+                    </a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+  </div>

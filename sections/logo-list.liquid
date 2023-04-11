@@ -1,0 +1,266 @@
+<style>
+  #section-{{ section.id }} {
+    background: {{ section.settings.background }};
+    max-width: 100%;
+    overflow: hidden;
+    padding-top: {{ section.settings.padding | append: 'px' }};
+    padding-bottom: {{ section.settings.padding | append: 'px' }};
+    padding-left: 50px;
+    padding-right: 50px;
+    position: relative;
+  }
+  #section-{{ section.id }} .logo-list {
+    list-style: none;
+    margin: 0 auto;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .logo-list h1 {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  #section-{{ section.id }} .logo-list--item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 5px 20px;
+    font-weight: bold;
+    flex-direction: column;
+  }
+
+  @media only screen and (min-width: 1450px) {
+    #section-{{ section.id }} .logo-list--item {
+      flex-direction: row;
+    }
+  }
+  #section-{{ section.id }} .logo-list--item img {
+    display: block;
+    width: 150px;
+    margin: 0;
+  }
+
+  {% if section.settings.enable_filter %}
+
+  #section-{{ section.id }} .logo-list--item img {
+    filter: grayscale(100%);
+    transition: all 0.3s ease-in;
+  }
+
+  #section-{{ section.id }} .logo-list--item:hover img {
+    filter: none;
+    transform: scale(1.04);
+  }
+
+  {% endif %}
+
+  #section-{{ section.id }} .logo-list--item__content {
+    margin: 0;
+    padding: 0;
+    width: fit-content;
+    line-height: 1.1;
+    text-align: center;
+  }
+
+</style>
+
+<div class="logo-list {% if section.settings.full_width %}page-width{% endif %}">
+  <h1 class="h2">{{ section.settings.heading }}</h1>
+  <div id="section-{{ section.id }}" data-speed="{{section.settings.autoplay_speed | append: '000'}}">
+    
+    <haciendola-carousel id="logo-list--{{ section.id }}" 
+    style="
+    --dots-color: {{ section.settings.dots-color }};
+    --active-dot-color: {{ section.settings.active-dot-color }};
+    "
+    >
+      {% for block in section.blocks %}
+        <div class="logo-list--item" style="background: {{ block.settings.background }}">
+          {% if block.settings.image != blank %}
+          <a href="{{ block.settings.link }}" {% if section.settings.target_blank %} target="_blank" {% endif %}>
+            <img src="{{ block.settings.image | img_url: 'master' }}">
+          </a>
+          {% else %}
+            {{ 'image' | placeholder_svg_tag }}
+          {% endif %}
+          {% if block.settings.content != blank %}
+            <p class="logo-list--item__content">{{ block.settings.content }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </haciendola-carousel>
+   
+    {%- unless section.settings.show_arrows -%}      
+    {%- endunless -%}
+    {%- unless section.settings.show_pagination -%}
+    {%- endunless -%}
+  </div>
+  </div>
+<script type="module">
+  const slider = document.getElementById(`logo-list--{{ section.id }}`)
+  slider.configure({
+    autoplay: {{ section.settings.enable-autoplay }},
+    slideDuration: {{ section.settings.autoplay-duration }},
+    slidesPerView: 1,
+    slidesToScroll: 1,
+    gap: 40,
+    loop: true,
+    controls: {
+      arrows: {{ section.settings.enable-arrows-mobile }},
+      dots: {{ section.settings.enable-dots-mobile }}
+    },
+    dotsSettings: {
+      renderMode: 'flow'
+    },
+    breakpoints: {
+      1000: {
+        slidesPerView: 4
+      }
+    }
+  })
+</script>
+
+{% schema %}
+{
+  "name": "Logo List",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Section spacer",
+      "unit": "px",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "default": false,
+      "label": "Enable full width"
+    },
+    {
+      "type": "header",
+      "content": "Section settings"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Titulo"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Section Background",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "header",
+      "content": "Autoplay"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable-autoplay",
+      "label": "Activar el autoplay",
+      "info": "Solo funciona en la vista en vivo; está desactivado para el design mode (customizer)"
+    },
+    {
+      "type": "range",
+      "id": "autoplay-duration",
+      "label": "Duración de los slides",
+      "unit": "s",
+      "min": 0.5,
+      "max": 6,
+      "step": 0.5,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Controles"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable-dots-mobile",
+      "label": "Habilitar paginación en móviles",
+      "default": true,
+      "info": "Son los puntitos clickeables que aparecen abajo"
+    },
+    {
+      "type": "color",
+      "id": "dots-color",
+      "label": "Color de las páginas",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "color",
+      "id": "active-dot-color",
+      "label": "Color de la página activa",
+      "default": "#333"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable-arrows-mobile",
+      "label": "Habilitar flechas en móviles",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_hover",
+      "label": "Pause on hover",
+      "default": true,
+      "info": "Autoplay needs to be enable"
+    },
+    {
+      "type": "header",
+      "content": "Logo settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "target_blank",
+      "label": "Enable target blank",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filter",
+      "label": "Enable black and white",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo List",
+      "blocks": [
+        { "type": "logo" }
+      ]
+    }
+  ]
+}
+{% endschema %}

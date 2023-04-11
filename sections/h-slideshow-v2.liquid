@@ -1,0 +1,551 @@
+<style>
+  .h-slideshow__slide {
+    display: block;
+    position: relative;
+    height: 100%;
+  }
+  .h-slideshow__content {
+    position: absolute;
+    width: 80%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    text-align: var(--text-align);
+  }
+  .h-slideshow-preheading,
+  .h-slideshow-heading,
+  .h-slideshow-subheading {
+    display: block;
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+    font-size: var(--preheading-fs);
+    color: var(--preheading-color);
+  }
+  .h-slideshow-heading {
+    font-size: var(--heading-fs);
+    margin: 1rem 0;
+    font-weight: bold;
+    color: var(--heading-color)
+  }
+  .h-slideshow-subheading {
+    font-size: var(--subheading-fs);
+    margin-bottom: 2em;
+    color: var(--subheading-color);
+  }
+  .h-slideshow__image,
+  .h-slideshow__image > div {
+    height: 100%;
+  }
+  .h-slideshow__image svg {
+    opacity: .5;
+  }
+  .h-slideshow__image svg,
+  .h-slideshow__image img {
+    display: block;
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .h-slideshow__image--mobile {
+    display: none;
+  }
+  .haciendola-carousel__button:after,
+  .haciendola-carousel__button:before {
+    display: none;
+  }
+
+  .h-slideshow-buttons-container > a {
+    text-decoration: none;
+  }
+
+
+  @media (max-width: 750px) {
+    .h-slideshow__image--mobile {
+      display: block;
+    }
+    .h-slideshow__image--desktop {
+      display: none;
+    }
+    .h-slideshow__content {
+      text-align: var(--text-align-mb);
+      top: unset;
+      bottom: 60px;
+      transform: translateX(-50%);
+    }
+    .h-slideshow-preheading {
+      font-size: var(--preheading-fs-mb);
+    }
+    .h-slideshow-heading {
+      font-size: var(--heading-fs-mb);
+    }
+    .h-slideshow-subheading {
+      font-size: var(--subheading-fs-mb);
+    }
+  }
+
+  #slider-{{ section.id }} .h-slideshow-buttons-container {
+    display: flex;
+    justify-content: {{ section.settings.button_align }};
+    gap: 15px;
+  }
+  
+
+</style>
+
+<haciendola-carousel id="slider-{{ section.id }}" style="
+  --dots-color: {{ section.settings.dots-color }};
+  --active-dot-color: {{ section.settings.active-dot-color }};
+">
+  {% for block in section.blocks %}
+    {% comment %}Link del slideshow{% endcomment %}
+    {% capture primary_link %}
+      <a
+        href="{{ block.settings.url }}"
+        {% if block.settings.target-blank %}
+          target="_blank"
+        {% endif %}
+      >
+    {% endcapture %}
+
+    {% comment %}Envolver en el link si es global{% endcomment %}
+    {% if block.settings.global-link and block.settings.button2-link == blank %}{{ primary_link }}{% endif %}
+
+    <div {{ block.shopify_attributes }}
+      data-arrows-color="{{ block.settings.arrows-color }}"
+      style="
+        --preheading-fs: calc({{ block.settings.preheading-fs-desktop | divided_by: 16.0 }} * 1rem);
+        --preheading-fs-mb: calc({{ block.settings.preheading-fs-mobile | divided_by: 16.0 }} * 1rem);
+        --preheading-color: {{ block.settings.preheading-color }};
+        --heading-fs: calc({{ block.settings.heading-fs-desktop | divided_by: 16.0 }} * 1rem);
+        --heading-fs-mb: calc({{ block.settings.heading-fs-mobile | divided_by: 16.0 }} * 1rem);
+        --heading-color: {{ block.settings.heading-color }};
+        --subheading-fs: calc({{ block.settings.subheading-fs-desktop | divided_by: 16.0 }} * 1rem);
+        --subheading-fs-mb: calc({{ block.settings.subheading-fs-mobile | divided_by: 16.0 }} * 1rem);
+        --subheading-color: {{ block.settings.subheading-color }};
+        --text-align: {{ block.settings.text-align }};
+        --text-align-mb: {{ block.settings.text-align-mobile }};
+        --button-background: {{ block.settings.button-background }};
+        --button-text-color: {{ block.settings.button-text-color }};
+        --button-background-hv: {{ block.settings.button-background-hv }};
+        --button-text-color-hv: {{ block.settings.button-text-color-hv }};
+        --button2-background: {{ block.settings.button2-background }};
+        --button2-text-color: {{ block.settings.button2-text-color }};
+        --button2-background-hv: {{ block.settings.button2-background-hv }};
+        --button2-text-color-hv: {{ block.settings.button2-text-color-hv }};
+      "
+      >
+      <div class="h-slideshow__slide">
+        <div class="h-slideshow__image">
+          <div class="h-slideshow__image--desktop">
+            {% if block.settings.image != blank %}
+              <img src="{{ block.settings.image | img_url: 'master' }}" alt="{{ block.settings.image.alt }}">
+            {% else %}
+              {{ 'lifestyle-1' | placeholder_svg_tag }}
+            {% endif %}
+          </div>
+          <div class="h-slideshow__image--mobile">
+            {% if block.settings.mobile_image != blank %}
+              <img src="{{ block.settings.mobile_image | img_url: 'master' }}" alt="{{ block.settings.mobile_image.alt }}">
+            {% else %}
+              {{ 'collection-2' | placeholder_svg_tag }}
+            {% endif %}
+          </div>
+        </div>
+        <div class="h-slideshow__content">
+          <p class="h-slideshow-preheading">{{ block.settings.preheading | newline_to_br }}</p>
+          <h2 class="h-slideshow-heading">{{ block.settings.heading | newline_to_br }}</h2>
+          <p class="h-slideshow-subheading">{{ block.settings.subheading | newline_to_br }}</p>
+          <div class="h-slideshow-buttons-container">
+            {% if block.settings.button-content != blank %}
+              {% comment %}Envolver en el link si NO es global{% endcomment %}
+              {% if block.settings.global-link == false or block.settings.button2-link != blank  %}{{ primary_link }}{% endif %}
+                <div class="button button custom--primary">{{ block.settings.button-content }}</div>
+              {% if block.settings.global-link == false or block.settings.button2-link != blank %}</a>{% endif %}
+            {% endif %}
+
+            {% comment %}El 2do boton se muesta solo si tiene contenido {% endcomment %}
+            {% if block.settings.button2-content != blank %}
+              {% comment %}El link2 rompe el link global dejandolo solo en los botones{% endcomment %}
+              {% if block.settings.button2-link != blank %}
+                <a href="{{ block.settings.button2-link }}" {% if block.settings.button2-target-blank %}target="_blank"{% endif %}>
+              {% endif %}
+                <div class="button button custom--primary">{{ block.settings.button2-content }}</div>
+              {% if block.settings.button2-link != blank %}</a>{% endif %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% comment %}Envolver en link (si es global){% endcomment %}
+    {% if block.settings.global-link and block.settings.button2-link == blank %}</a>{% endif %}
+  {% endfor %}
+</haciendola-carousel>
+
+
+<script type="module">
+  const slider = document.getElementById(`slider-{{ section.id }}`)
+  slider.configure({
+    autoplay: {{ section.settings.enable-autoplay }},
+    slideDuration: {{ section.settings.autoplay-duration }},
+    loop: true,
+    controls: {
+      dots: {{ section.settings.enable-dots-mobile }},
+      arrows: {{ section.settings.enable-arrows-mobile }}
+    },
+    breakpoints: {
+      750: {
+        controls: {
+          dots: {{ section.settings.enable-dots }},
+          arrows: {{ section.settings.enable-arrows }}
+        }
+      }
+    }
+  })
+</script>
+
+{% schema %}
+{
+  "name": "H - Slideshow 2.0",
+  "class": "haciendola-animation--fadeUp",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Autoplay"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable-autoplay",
+      "label": "Activar el autoplay",
+      "info": "Solo funciona en la vista en vivo; está desactivado para el design mode (customizer)"
+    },
+    {
+      "type": "range",
+      "id": "autoplay-duration",
+      "label": "Duración de los slides",
+      "unit": "s",
+      "min": 0.5,
+      "max": 6,
+      "step": 0.5,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Controles"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable-dots",
+      "label": "Habilitar paginación en versión de escritorio",
+      "default": true,
+      "info": "Son los puntitos clickeables que aparecen abajo"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable-dots-mobile",
+      "label": "Habilitar paginación en móviles",
+      "default": true,
+      "info": "Son los puntitos clickeables que aparecen abajo"
+    },
+    {
+      "type": "color",
+      "id": "dots-color",
+      "label": "Color de las páginas",
+      "default": "#e6e6e6"
+    },
+    {
+      "type": "color",
+      "id": "active-dot-color",
+      "label": "Color de la página activa",
+      "default": "#333"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable-arrows",
+      "label": "Habilitar flechas en versión de escritorio",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable-arrows-mobile",
+      "label": "Habilitar flechas en móviles",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "button_align",
+      "label": "Alineación de los botones",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen en versión de escritorio"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Imagen en móviles"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "textarea",
+          "id": "preheading",
+          "label": "Pre-Título",
+          "default": "This is pre-heading"
+        },
+        {
+          "type": "range",
+          "id": "preheading-fs-desktop",
+          "label": "Tamaño del pre-título",
+          "unit": "px",
+          "min": 20,
+          "max": 60,
+          "step": 1,
+          "default": 22
+        },
+        {
+          "type": "range",
+          "id": "preheading-fs-mobile",
+          "label": "Tamaño del pre-título en móviles",
+          "unit": "px",
+          "min": 20,
+          "max": 60,
+          "step": 1,
+          "default": 22
+        },
+        {
+          "type": "color",
+          "id": "preheading-color",
+          "label": "Color del pre-titulo"
+        },
+        {
+          "type": "textarea",
+          "id": "heading",
+          "label": "Título",
+          "default": "Heading"
+        },
+        {
+          "type": "range",
+          "id": "heading-fs-desktop",
+          "label": "Tamaño del título",
+          "unit": "px",
+          "min": 20,
+          "max": 100,
+          "step": 1,
+          "default": 40
+        },
+        {
+          "type": "range",
+          "id": "heading-fs-mobile",
+          "label": "Tamaño del título en móviles",
+          "unit": "px",
+          "min": 20,
+          "max": 100,
+          "step": 1,
+          "default": 40
+        },
+        {
+          "type": "color",
+          "id": "heading-color",
+          "label": "Color del título"
+        },
+        {
+          "type": "textarea",
+          "id": "subheading",
+          "label": "Subtítulo",
+          "default": "Sub-Heading"
+        },
+        {
+          "type": "range",
+          "id": "subheading-fs-desktop",
+          "label": "Tamaño del subtítulo",
+          "unit": "px",
+          "min": 20,
+          "max": 60,
+          "step": 1,
+          "default": 22
+        },
+        {
+          "type": "range",
+          "id": "subheading-fs-mobile",
+          "label": "Tamaño del subtítulo en móviles",
+          "unit": "px",
+          "min": 20,
+          "max": 60,
+          "step": 1,
+          "default": 22
+        },
+        {
+          "type": "color",
+          "id": "subheading-color",
+          "label": "Color del subtítulo"
+        },
+        {
+          "type": "header",
+          "content": "Botón 1"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL del botón"
+        },
+        {
+          "type": "checkbox",
+          "id": "target-blank",
+          "label": "Abrir en nueva pestaña"
+        },
+        {
+          "type": "checkbox",
+          "id": "global-link",
+          "label": "Hacer clickeable todo el slide"
+        },
+        {
+          "type": "text",
+          "id" : "button-content",
+          "label": "Contenido del botón"
+        },
+        {
+          "type": "color",
+          "id" : "button-background",
+          "label": "Color de fondo del botón"
+        },
+        {
+          "type": "color",
+          "id" : "button-text-color",
+          "label": "Color del texto del botón"
+        },
+        {
+          "type": "color",
+          "id" : "button-background-hv",
+          "label": "fondo del botón (al hover)"
+        },
+        {
+          "type": "color",
+          "id" : "button-text-color-hv",
+          "label": "Texto del botón (al hover)"
+        },
+        {
+          "type": "header",
+          "content": "Botón 2"
+        },
+        {
+          "type": "url",
+          "id": "button2-link",
+          "label": "URL del botón 2"
+        },
+        {
+          "type": "checkbox",
+          "id": "button2-target-blank",
+          "label": "Abrir en nueva pestaña"
+        },
+        {
+          "type": "text",
+          "id" : "button2-content",
+          "label": "Contenido del botón 2"
+        },
+        {
+          "type": "color",
+          "id" : "button2-background",
+          "label": "Color de fondo del botón"
+        },
+        {
+          "type": "color",
+          "id" : "button2-text-color",
+          "label": "Color del texto del botón 2"
+        },
+        {
+          "type": "color",
+          "id" : "button2-background-hv",
+          "label": "fondo del botón 2 (al hover)"
+        },
+        {
+          "type": "color",
+          "id" : "button2-text-color-hv",
+          "label": "Texto del botón 2 (al hover)"
+        },
+        {
+          "type": "header",
+          "content": "Configuration"
+        },
+        {
+          "type": "select",
+          "id": "text-align",
+          "label": "Alineación del texto",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "text-align-mobile",
+          "label": "Alineación del texto en móviles",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "color",
+          "id": "arrows-color",
+          "label": "Color de las flechas"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "H - Slideshow 2.0",
+      "blocks": [
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

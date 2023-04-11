@@ -1,0 +1,42 @@
+<div class="h-megamenu__column {% if block.settings.unique_column %}h-megamenu__column--unique{% endif %}">
+    {% if block.settings.title != blank
+      or block.settings.image != blank
+      or block.settings.description != blank 
+    %}
+      {% if block.settings.image_link %}<a href="{{ block.settings.image_link }}" class="h-mengamenu--link">{% endif %}
+        <div class="h-megamenu__content">
+          {% if block.settings.title != blank and block.settings.show_above_title == false %}
+          <h3 class="h-megamenu__column-heading">{{ block.settings.title }}</h3>
+          {% endif %}
+          {% if block.settings.image != blank %}
+          <img 
+          src="{{ block.settings.image | img_url: 'master' }}" 
+          alt="{{ block.settings.image.alt }}" 
+          class="h-megamenu__image"
+          loading="lazy"
+          width="{{ block.settings.image.width }}"
+          height="{{ block.settings.image.height }}"
+          style="--image-height: {{ block.settings.image_height }}px; --object-fit: {{ block.settings.object_fit }}; {% unless block.settings.object_fit == 'unset' %}--image-width: 100%;{% endunless %} {% if block.settings.show_above_title %}margin-bottom: 10px;{% endif %}"
+          >
+          {% endif %}
+          {% if block.settings.title != blank and block.settings.show_above_title %}
+          <h3 class="h-megamenu__column-heading">{{ block.settings.title }}</h3>
+          {% endif %}
+          {% if block.settings.image != blank %}
+            <p class="h-megamenu__column-description {% if block.settings.menu.links.size > 0 %}has-divider{% endif %}">{{ block.settings.description }}</p>
+            
+            {% if block.settings.menu.links.size > 0 %}<hr />{% endif %}
+          {% endif %}
+        </div>
+      {% if block.settings.image_link %}</a>{% endif %}
+    {% endif %}
+    {% if block.settings.menu.links.size > 0 %}
+    <ul class="h-megamenu__list">
+      {% for link in block.settings.menu.links %}
+        <li class="h-megamenu__list-item">
+          <a href="{{ link.url }}" class="h-megamenu__list-link">{{ link.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+</div>

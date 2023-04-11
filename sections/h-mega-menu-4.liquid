@@ -1,0 +1,163 @@
+<h-megamenu
+  data-trigger="{{ section.settings.link_title }}"
+  class="h-megamenu {% if section.settings.centered %}h-megamenu--centered{% endif %} {% if section.settings.fullwidth %}h-megamenu--fullwidth{% endif %}"
+  style="{% assign columns = section.settings.columns %}
+    --background-color: {{ section.settings.background }};
+    --color: {{ section.settings.color }};
+    --columns: {% if section.blocks.size < columns %}{{section.blocks.size}}{% else %}{{ columns }}{% endif %};
+    --links-hover-color: {{ section.settings.hover_color }};
+  "
+>
+  {% for block in section.blocks %}
+    {% case block.type %}
+    {% when 'column' %}
+      {% render 'h-megamenu-column', block: block %}
+    {% when 'full-width' %}
+    {% endcase %}
+  {% endfor %}
+  <div style="text-align: center; grid-column: span {% if section.blocks.size < columns %}{{section.blocks.size}}{% else %}{{ columns }}{% endif %};">
+    {% if section.settings.general_button != blank %}
+      <a href="{{ section.settings.general_button }}" class="button button--primary">{{ section.settings.general_button_text }}</a>
+    {% endif %}
+  </div>
+</h-megamenu>
+
+<script src="{{ 'h-mega-menu.js' | asset_url }}" type="module"></script>
+
+{% schema %}
+{
+  "name": "H - Megamenu 2.0.1",
+  "settings": [
+    {
+      "type": "text",
+      "id": "link_title",
+      "label": "Título del link"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Color de fondo",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "Color del texto",
+      "default": "#333"
+    },
+    {
+      "type": "color",
+      "id": "hover_color",
+      "label": "Color del texto (al hover)",
+      "default": "#333"
+    },
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Enable Fullwidth",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "centered",
+      "label": "Centered elements",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Number of columns",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "url",
+      "id": "general_button",
+      "label": "General Button"
+    },
+    {
+      "type": "text",
+      "id": "general_button_text",
+      "label": "General Button content"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Columna",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "unique_column",
+          "label": "Mostrar como colúmna única",
+          "info": "Título, imágen y descripción sobre los links",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Descripción"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_above_title",
+          "label": "Mostrar arriba del título",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "image_height",
+          "label": "Image height",
+          "unit": "px",
+          "min": 20,
+          "max": 500,
+          "step": 5,
+          "default": 40
+        },
+        {
+          "type": "select",
+          "id": "object_fit",
+          "label": "Acomodo de la imagen",
+          "options": [
+            {
+              "value": "fill",
+              "label": "Llenar contenedor"
+            },
+            {
+              "value": "cover",
+              "label": "Cubrir"
+            },
+            {
+              "value": "unset",
+              "label": "Ninguno"
+            }
+          ],
+          "default": "cover"
+        },
+        {
+          "type": "url",
+          "id": "image_link",
+          "label": "Main link"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        }
+      ] 
+    }
+  ]
+}
+{% endschema %}

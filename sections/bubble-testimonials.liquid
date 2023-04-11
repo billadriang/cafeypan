@@ -1,0 +1,707 @@
+{% style %}
+.section-testimonial {
+  {% if section.settings.bg_image != blank %}
+    background-image: linear-gradient(rgba(0,0,0,{{ section.settings.bg_opacity }}), rgba(0,0,0,{{ section.settings.bg_opacity }})),url('{{ section.settings.bg_image| img_url: 'master'}}');
+  {% endif %}
+	background-color: {{section.settings.testimonial_bgcolor}};
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: {{section.settings.background_horizontal_alignment}} {{section.settings.background_vertical_alignment}};
+	display: block;
+	padding: 10px 0;
+  max-width: 100vw;
+  overflow: hidden;
+}
+
+  @media screen and (max-width: 768px) {
+    .section-testimonial {
+      background-image: linear-gradient(rgba(0,0,0,{{ section.settings.bg_opacity }}), rgba(0,0,0,{{ section.settings.bg_opacity }})),url('{{ section.settings.bg_image_mobile | img_url: 'master'}}');
+    }
+  }
+
+.typing-bubble {
+  margin-left: 0;
+  margin-bottom: 3rem;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.testimonials-bubbles {
+  min-height: {{ section.settings.min_height }}px;
+  position: relative;
+}
+
+.typing-bubble {
+  background-color: white;
+  width: auto;
+  border-radius: 50px;
+  padding: 15px;
+  display: table;
+  position: relative;
+  animation: 2s bulge  ease-in-out forwards;
+  opacity: .6;
+}
+
+.typing-bubble::before,
+.typing-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: -2px;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.typing-bubble::after {
+  height: 10px;
+  width: 10px;
+  left: -10px;
+  bottom: -10px;
+}
+
+.dots {
+  height: 10px;
+  width: 10px;
+  float: left;
+  margin: 0 3px;
+  background-color: #d6dfec;
+  display: block;
+  border-radius: 50%;
+  opacity: 0.4;
+}
+
+.dots:nth-child(1) {
+  animation: 1s blink infinite 0.33s;
+}
+.dots:nth-child(2) {
+  animation: 1s blink infinite 0.66s;
+}
+.dots:nth-child(3) {
+  animation: 1s blink infinite 0.999s;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 1;
+  }
+}
+
+.bubble {
+  transform: scale(0);
+}
+
+
+.bubble-left {
+  margin-bottom: 2rem;
+  width: fit-content;
+}
+
+.bubble-right {
+  margin-bottom: 2rem;
+  margin-right: 0 !important;
+  margin-left: auto !important;
+  width: fit-content;
+}
+
+
+@keyframes fadeIn {
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+
+.bubble-message {
+  padding: 18px 20px 14px;
+  background-color: {{ section.settings.bubble_bg_color }};
+  border-radius: 32px;
+  box-shadow: -4px 8px 10px rgb(0 0 0 / 5%);
+}
+
+.bubble-message p {
+  font-size: .9rem;
+  line-height: 1.3;
+  width: fit-content;
+  max-width: 272px;
+  color: #494949;
+  margin: 0;
+  opacity: .5;
+  transition: all 0.5s;
+  transition-delay: 1.5s;
+  overflow: hidden;
+}
+
+.bubble__tail-right {
+  right: -5px;
+  transform: scaleX(-1);
+  position: absolute;
+  bottom: -2px;
+}
+
+.bubble__tail-left {
+  left: -3px;
+  transform: scaleX(1) translateY(10px);
+  position: absolute;
+  bottom: -2px;
+}
+
+.testimonials-bubbles.fade-in .typing-bubble,
+.testimonials-bubbles.fade-in .bubble-message {
+  animation-name: fadeIn;
+  animation-duration: 1.25s;
+  animation-timing-function:cubic-bezier(0.68, 0.55, 0.265, 1.55) ;
+  animation-fill-mode: forwards;
+}
+
+.testimonial-title {
+  font-size: {{ section.settings.font_size }}px;
+  color: {{ section.settings.testimonial_heading_color1 }};
+  text-align: {{ section.settings.testimonial_heading_position }};
+  font-weight: {{ section.settings.font_weight }};
+  display: block;
+  margin-bottom: {{section.settings.heading_mb}}em;
+  margin-top: {{section.settings.heading_mt}}em;
+}
+
+
+.testimonials-bubbles.fade-in .bubble-message p {
+  opacity: 1;
+  max-height: 50vh;
+}
+
+{% for block in section.blocks %}
+  .bubble-{{ block.id }} {
+    background-color: {{ block.settings.bubble_bg_color }};
+    {% if block.settings.inMobile %}
+      display: flex !important;
+    {% else %}
+      display: none !important;
+    {% endif %}
+  }
+
+  .bubble-{{ block.id }} p {
+    color: {{ block.settings.bubble_font_color }} !important;
+  }
+{% endfor %}
+
+@media screen and (min-width: 968px) {
+  .bubble-message p {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (min-width: 968px) {
+  {% for block in section.blocks%}
+    .bubble-{{ block.id }} {
+      top: {{ block.settings.bubble-position-top }}%;
+      left: {{ block.settings.bubble-position-left }}%;
+      animation-delay: calc(0.45s * {{block.settings.bubble_delay}});
+      display: block !important;
+    }
+
+  {% endfor %}
+  .bubble {
+    position: absolute;
+  }
+}
+{% endstyle %}
+
+<bubble-testimonial  class="section-testimonial">
+  <h2 class="testimonial-title">{{ section.settings.testimonial_heading_title }}</h2>
+      <div class="wrapper">
+        <div class="testimonials-bubbles" id="testimonial-{{ section.id }}">
+          
+
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%-when 'bubble-dots'%}
+                <div class="typing-bubble bubble bubble-{{ block.id }}  bubble-{{ block.settings.dots_position }}" {{block.sh}} >
+                  <span class="dots"></span>
+                  <span class="dots"></span>
+                  <span class="dots"></span>
+                </div>
+              {%-when 'bubble-testimonial' -%}
+                <div class="bubble-message bubble bubble-{{ block.id }}  bubble-{{ block.settings.bubble_position }}" {{block.shopify_attributes}}>
+                  <p>
+                    {{ block.settings.bubbles-body-text }} <br />
+                     <span {%if block.settings.text_bubble_bold %} style="font-weight: bold" {%endif%}>{{ block.settings.title }}</span>
+                  </p>
+                  <span class="bubble__tail-{{ block.settings.tail_position }}">
+                    <svg
+                      width="23"
+                      height="32"
+                      viewBox="0 0 23 32"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M7.173 0C7.173 0 7.72637 13.9816 6.54788 20.6069C5.85086 24.5254 2.81545 27.6194 0.451534 29.4934C-0.296693 30.0866 0.111526 31.3936 1.06187 31.3011C5.54176 30.865 13.4803 29.4791 20.3009 25.082C30.4585 18.5336 7.173 0 7.173 0Z"
+                        fill="{{ block.settings.bubble_bg_color }}"
+                      ></path>
+                    </svg>
+                  </span>
+                </div>
+            {%- endcase -%}
+         {% endfor %} 
+
+        </div>
+      </div>
+</bubble-testimonial>
+<script type="module">
+  import "{{ 'intersection-handler.js' | asset_url }}"
+  class BubbleTestimonial extends HTMLElement {
+    constructor() {
+      super()
+      const testimonial = this.querySelector('#testimonial-{{ section.id }}')
+      window.IntersectionHandler.addListener(testimonial,() => testimonial.classList.add('fade-in'))
+    }
+  }
+  window.customElements.define('bubble-testimonial',BubbleTestimonial)
+</script>
+
+{% schema %}
+  {
+    "name": "Bubble testimonial",
+    "tag": "section",
+    "settings": [
+      {
+        "type" : "header",
+        "content": "Background Settings"
+      },   
+      {
+        "type": "color",
+        "id": "testimonial_bgcolor",
+        "label": "Background color",
+        "default": "#d6dfec"
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_image",
+        "label": "Background image"
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_image_mobile",
+        "label": "Background image mobile (optional)"
+      },
+      {
+        "type": "range",
+        "id": "bg_opacity",
+        "min": 0,
+        "max": 1,
+        "step": 0.10,
+        "label": "Background opacity",
+        "default": 0
+      },
+      {
+        "type": "select",
+        "id": "background_vertical_alignment",
+        "label": "Background vertical positioning",
+        "options": [
+          {
+            "value": "top",
+            "label": "Top"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "bottom",
+            "label": "bottom"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "select",
+        "id": "background_horizontal_alignment",
+        "label": "Background horizontal alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+     {
+       "type": "range",
+       "id": "min_height",
+       "label": "Min height",
+       "unit": "px",
+       "min": 300,
+       "max": 1500,
+       "step": 50,
+       "default": 400
+     },
+      {
+        "type": "header",
+        "content": "Title settings"
+      },
+      {
+        "type": "text",
+        "id": "testimonial_heading_title",
+        "label": "Heading",
+        "default": "Testimonios"
+      },
+      {
+        "type": "range",
+        "id": "heading_mt",
+        "min": 0,
+        "max": 5,
+        "step": 0.5,
+        "unit": "em",
+        "label": "Margin top",
+        "default": 0.5
+      },
+      {
+        "type": "range",
+        "id": "heading_mb",
+        "min": 0,
+        "max": 5,
+        "step": 0.5,
+        "unit": "em",
+        "label": "Margin bottom",
+        "default": 0.5
+      },
+      {
+        "type": "color",
+        "id": "testimonial_heading_color1",
+        "label": "Heading font color",
+        "default": "#000000"
+      },
+      {
+        "type": "select",
+        "id": "testimonial_heading_position",
+        "label": "Title horizontal alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "range",
+        "id": "font_size",
+        "min": 24,
+        "max": 72,
+        "step": 2,
+        "unit": "px",
+        "label": "Font size",
+        "default": 32
+      },
+      {
+        "type": "select",
+        "id": "font_weight",
+        "label": "Font weight",
+        "options": [
+          {
+            "value": "normal",
+            "label": "Normal"
+          },
+          {
+            "value": "bold",
+            "label": "Bold"
+          },
+          {
+            "value": "bolder",
+            "label": "Bolder"
+          }
+        ]
+      } 
+    ],
+    "blocks": [
+      {
+        "type": "bubble-testimonial",
+        "name": "Bubble testimonial",
+        "limit": 8,
+        "settings": [
+          {
+            "type": "text",
+            "id": "bubbles-body-text",
+            "label": "Message inside bubble"
+          },
+          {
+            "type": "checkbox",
+            "id": "inMobile",
+            "label": "Show in mobile",
+            "default": true
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Comment Author"
+          },
+          {
+            "type": "color",
+            "id": "bubble_font_color",
+            "label": "Font color",
+            "default": "#000000"
+          },
+          {
+            "type": "color",
+            "id": "bubble_bg_color",
+            "label": "Bubble color",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "checkbox",
+            "id": "text_bubble_bold",
+            "label": "Bold message",
+            "default": false
+          },
+          {
+            "type": "header",
+            "content": "Bubble positioning"
+          },
+          {
+            "type": "range",
+            "id": "bubble-position-left",
+            "min": 0,
+            "max": 100,
+            "step": 2,
+            "label": "Position left",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "bubble-position-top",
+            "min": 0,
+            "max": 100,
+            "step": 2,
+            "label": "Position top",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "bubble_delay",
+            "min": 0,
+            "max": 5,
+            "step": 0.5,
+            "label": "Bubble delay",
+            "default": 0
+          },
+          {
+            "type": "select",
+            "id": "tail_position",
+            "label": "Tail position",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              }
+            ]
+          },
+          {
+            "type": "header",
+            "content": "Mobile bubble position"
+          },
+          {
+            "type": "select",
+            "id": "bubble_position",
+            "label": "Bubble position",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              }
+            ],
+            "default": "left"
+          }
+        ]
+      },
+      {
+        "type": "bubble-dots",
+        "name": "Bubble dots",
+        "limit": 5,
+        "settings": [
+          {
+            "type": "header",
+            "content": "Bubble positioning"
+          },
+          {
+            "type": "range",
+            "id": "bubble-position-left",
+            "min": 0,
+            "max": 100,
+            "step": 2,
+            "label": "Left",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "bubble-position-top",
+            "min": 0,
+            "max": 100,
+            "step": 2,
+            "label": "Top",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "bubble_delay",
+            "min": 0,
+            "max": 5,
+            "step": 0.5,
+            "label": "Delay",
+            "default": 0
+          },
+          {
+            "type": "header",
+            "content": "Mobile dots position"
+          },
+          {
+            "type": "select",
+            "id": "dots_position",
+            "label": "Dots positioning",
+            "options": [
+              {
+                "value": "left",
+                "label": "left"
+              },
+              {
+                "value": "right",
+                "label": "right"
+              }
+            ],
+            "default": "right"
+          },
+          {
+            "type": "checkbox",
+            "id": "inMobile",
+            "label": "Show in mobile",
+            "default": true
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Bubble testimonial",
+        "category": "Testimonial",
+        "settings":{
+          "heading_mb": 2
+        },
+        "blocks": [
+        {
+          "type": "bubble-testimonial",
+          "settings": {
+            "bubbles-body-text" : "Lorem ipsum dolor sit amet",
+            "title" : "- Autor 1"
+          }
+        },
+        {
+          "type": "bubble-testimonial",
+          "settings": {
+            "bubble-position-left" : 30,
+            "bubble-position-top" : 58,
+            "bubbles-body-text" : "Lorem ipsum dolor sit amet",
+            "title" : "- Autor 1"
+          }
+        },
+        {
+          "type": "bubble-testimonial",
+          "settings": {
+            "bubble-position-left" : 16,
+            "bubble-position-top" : 20,
+            "bubbles-body-text" : "💕🍵️🔥"
+          }
+        },
+        {
+          "type": "bubble-testimonial",
+          "settings": {
+            "bubble-position-left" : 82,
+            "bubble-position-top" : 14,
+            "bubbles-body-text" : "⭐⭐⭐⭐⭐"
+          }
+        },
+        {
+          "type": "bubble-testimonial",
+          "settings": {
+            "bubble-position-left" : 48,
+            "bubbles-body-text" : "Que onda el equipo? Demasiado secos",
+            "title" : "- Autor 1"
+          }
+        },
+        {
+          "type": "bubble-testimonial",
+          "settings": {
+            "bubble-position-left" : 60,
+            "bubble-position-top" : 28,
+            "bubbles-body-text" : "La mejor agencia de Shopify...",
+            "title" : "- Autor 1"
+          }
+        },
+        {
+          "type": "bubble-testimonial",
+          "settings": {
+            "bubble-position-left" : 20,
+            "bubble-position-top" : 36,
+            "bubbles-body-text" : "Lorem ipsum dolor sit amet",
+            "title" : "- Autor 1"
+          }
+        },
+        {
+          "type": "bubble-dots",
+          "settings": {
+            "bubble-position-left" : 0,
+            "bubble-position-top" : 46
+          }
+        },
+        {
+          "type": "bubble-dots",
+          "settings": {
+            "bubble-position-left" : 72,
+            "bubble-position-top" : 52
+          }
+        },
+        {
+          "type": "bubble-dots",
+          "settings": {
+            "bubble-position-left" : 36,
+            "bubble-position-top" : 12
+          }
+        }
+      ]
+      }
+    ]
+  }
+{% endschema %}

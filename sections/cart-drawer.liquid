@@ -1,0 +1,100 @@
+<style>
+  #shopify-section-cart-drawer {
+    position: relative;
+    z-index: 100;
+    opacity: 1;
+  }
+</style>
+
+{%- render 'h-cart-drawer', section: section -%}
+
+{% schema %}
+{
+  "name": "Cart Drawer",
+  "class": "haciendola-animate--ignore",
+  "blocks": [
+    {
+     "type": "items",
+     "name": "Cart Items",
+     "limit": 1
+    },
+    {
+     "type": "total",
+     "name": "Total of items"
+    },
+    {
+     "type": "progress-bar",
+     "name": "Progress Bar",
+     "limit": 1,
+     "settings": [
+        {
+          "type": "header",
+          "content": "Colors"
+        },
+        {
+          "type": "color",
+          "id": "widget_background",
+          "label": "Container Background",
+          "default": "#f9f9f9"
+        },
+        {
+          "type": "color",
+          "id": "widget_color",
+          "label": "Text Color",
+          "default": "#333"
+        },
+        {
+          "type": "color",
+          "id": "bar_color",
+          "label": "Bar color",
+          "default": "#e2e2e2"
+        },
+        {
+          "type": "color",
+          "id": "progress_color",
+          "label": "Background Color",
+          "default": "#00ff38"
+        },
+        {
+          "type": "header",
+          "content": "Settings"
+        },
+        {
+          "type": "text",
+          "id": "message_over",
+          "label": "Message over",
+          "default": "Message here"
+        },
+        {
+          "type": "text",
+          "id": "disclaimer",
+          "label": "Disclamer",
+          "default": "Disclamer Here"
+        },
+        {
+          "type": "number",
+          "id": "pricing",
+          "label": "Goal"
+        },
+        {
+          "type": "header",
+          "content": "Reward"
+        },
+        {
+          "type": "product",
+          "id": "reward",
+          "label": "Reward Product",
+          "info": "product given away when meeting the goal"
+        }
+     ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "items"
+      }
+    ]
+  }
+}
+{% endschema %}

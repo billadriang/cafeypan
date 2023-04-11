@@ -1,0 +1,18 @@
+.loading-overlay.loading-overlay {
+  position: fixed;
+}
+.loading-spinner {
+  --size: 20px;
+  display: block !important;
+  width: var(--size);
+  height: var(--size);
+  border: 3px solid #ccc;
+  border-radius: 50%;
+  border-left-color: #999;
+  animation: h-spinner 1s infinite linear;
+}
+@keyframes h-spinner {
+  to {
+    rotate: 360deg
+  }
+}

@@ -1,0 +1,114 @@
+<style>
+  .fw-promo-block {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .fw-promo-block-container {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+  }
+
+  @media screen and (min-width: 765px) {
+    .fw-promo-block-container.fw-promo-block-container--image_first{
+      flex-direction: row;
+      justify-content: center;
+    }
+  
+    .fw-promo-block-container.fw-promo-block-container--text_first {
+      flex-direction: row-reverse;
+    }
+  }
+
+  .fw-promo-block-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    height: fit-content;
+  }
+
+  @media screen and (max-width: 500px) {
+    .fw-promo-block-image img {
+    height: fit-content;
+  }
+  }
+
+  .fw-promo-block-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .fw-promo-block-text h2,
+  .fw-promo-block-text p {
+    color: {{ block.settings.text_color }};
+  } 
+
+  .fw-promo-block-text h2 {
+    margin: 0;
+    padding: 0;
+    font-size: {{ block.settings.heading_size }}px;
+  }
+
+  .fw-promo-block-text p {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+    font-size: {{ block.settings.text_size}}px;
+    width: 100%;
+  }
+  
+  @media screen and (max-width: 500px) {
+    .fw-promo-block-text h2 {
+      font-size: {{ block.settings.mobile_heading_size}}px;
+    }
+    .fw-promo-block-text p {
+      font-size: {{ block.settings.mobile_text_size}}px;
+    }
+  }
+  .fw-promo-block-text .fw-promo-block-text__text {
+    text-align: center;
+  }
+
+  .fw-promo-block-text * {
+    text-align: {{ block.settings.text_align }};
+  }
+
+  .fw-promo-block-text .button {
+    width: 100%;
+  } 
+</style>
+<div class="fw-promo-block">
+  <div class="fw-promo-block-container fw-promo-block-container--{{ block.settings.layout }}">
+    <div class="fw-promo-block-image">
+      {% if block.settings.image != blank %}
+        <img
+          src="{{ block.settings.image | img_url: 'master' }}"
+          alt="{{ block.settings.image.alt}}"
+          width="{{ block.settings.image.width }}"
+          height="{{ block.settings.image.height }}"
+          loading="lazy"
+          >
+      {% endif %}
+    </div>
+    <div class="fw-promo-block-text">
+      <h2 class="fw-promo-block-heading">
+        {{ block.settings.heading }}
+      </h2>
+      <p class="fw-promo-block-caption">
+        {{ block.settings.caption }}
+      </p>
+      <div class="fw-promo-block-text__text">
+        {{ block.settings.text}}
+      </div>
+      {% if block.settings.button_label != blank %}
+        <a {% if block.settings.button_link == blank %} role="link" aria-disabled="true" {% else %} href="{{ block.settings.button_link}}" {% endif %} class="button button--primary"{{ block.shopify_attributes }} >
+          {{ block.settings.button_label | escape }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>

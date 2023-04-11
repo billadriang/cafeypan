@@ -1,0 +1,151 @@
+<script src="{{ 'mega-menu.js' | asset_url }}" type="module" defer="defer"></script>
+{{ 'mega-menu.css' | asset_url | stylesheet_tag }}
+
+<mega-menu data-mega-menu-type="{{ section.settings.mega_menu_type }}" data-target-link-title="{{ section.settings.link_title }}">
+    <div id="mega-menu__content-{{ section.id }}" class="mega-menu__content">
+        {% case section.settings.mega_menu_type %}
+            {% when 'column_layout' %}
+                {% render 'mega-menu-column-layout', blocks: section.blocks %}
+            {% when 'collection_two_level' %}
+                {% render 'mega-menu-two-level', blocks: section.blocks %}
+        {% endcase %}
+    </div>
+</mega-menu>
+
+
+
+
+{% style %}
+    #mega-menu__content-{{ section.id }} {
+        background: {{ section.settings.background_color }};
+        padding: 50px;
+        {% if section.settings.mega_menu_type == 'collection_two_level' %}
+            /* TODO: dejé este width en duro, hay q mejorarlo */
+            width: 1000px;
+            left: 50%;
+            transform: translateX(-50%);
+        {% elsif section.settings.full_width %}
+            width: 100%;
+            left: 0;
+            position:fixed;
+            top: var(--header-top);
+        {% elsif section.settings.center_in_screen %}
+            left: 50%;
+            transform: translateX(-50%);
+        {% endif %}
+    }
+    {% if settings.mega_menu_enable %}
+      .header__submenu {
+        display: none;
+      }
+    {% endif %}
+
+    .mega-menu__content  .mega-menu__block a span{
+      color: black;
+      font-weight: 200;
+      z-index: 20;
+    }
+    {% if section.settings.adjust_content %}
+      .mega-menu__content {
+        justify-content: center;
+        gap: {{ section.settings.adjust_gap }}px;
+      }
+    {% endif %}
+{% endstyle %}
+
+
+{% schema %}
+{
+    "name": "Mega menú 5",
+    "settings": [
+        {
+          "id": "link_title",
+          "type": "text",
+          "label": "Título de link"
+        },
+        {
+          "type": "select",
+          "id": "mega_menu_type",
+          "label": "Tipo de mega menú",
+          "default": "column_layout",
+          "options": [
+            {
+              "value": "column_layout",
+              "label": "Layout por columnas"
+            }
+          ]
+        },
+        {
+            "type": "color",
+            "id": "background_color",
+            "label": "Color de fondo",
+            "default": "#FFFFFF"
+        },
+        {
+          "id": "center_in_screen",
+          "type": "checkbox",
+          "default": false,
+          "label": "Centrado"
+        },
+        {
+          "id": "full_width",
+          "type": "checkbox",
+          "default": false,
+          "label": "Ancho completo"
+        },
+        {
+          "id": "adjust_content",
+          "type": "checkbox",
+          "default": false,
+          "label": "Ajustar al contenido"
+        },
+        {
+          "id": "adjust_gap",
+          "type": "range",
+          "label": "Separación entre columnas",
+          "info": "Aplica solamente al \"Ajustar Contenido\"",
+          "min":  20,
+          "max": 100,
+          "step": 5,
+          "unit": "px",
+          "default": 20
+        }
+    ],
+    "blocks": [
+      {
+        "type": "menu",
+        "name": "Menú",
+        "settings": [
+            {
+              "type": "header",
+              "content": "Top content"
+            },
+            {
+              "type": "richtext",
+              "id": "description",
+              "label": "Text area"
+            },
+            {
+              "type": "image_picker",
+              "id": "image",
+              "label": "Image"
+            },
+            {
+              "type": "url",
+              "id": "image_link",
+              "label": "Image link"
+            },
+            {
+              "type": "header",
+              "content": "Navigation"
+            },
+            {
+                "type": "link_list",
+                "id": "menu",
+                "label": "Menú"
+            }
+        ]
+      }
+    ]
+}
+{% endschema %}

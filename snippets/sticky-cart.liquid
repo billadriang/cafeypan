@@ -1,0 +1,302 @@
+<link rel="stylesheet" href="{{ 'swiper-bundle.min.css' | asset_url }}">
+<style>
+.spo {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  gap: 10px;
+  width: 100%;
+  bottom: -100%;
+  left: 0;
+  border-top: 1px solid #ccc;
+  background: #fff;
+  transition: bottom .5s;
+  box-sizing: border-box;
+  position: fixed;
+  z-index: 100;
+}
+
+quick-add-modal .spo {
+  display: none !important;
+}
+
+.spo-show {
+  bottom: 0
+}
+.spo-variants {
+  width: 100%;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: auto 1fr auto; 
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  gap: 15px;
+  height: 100%;
+}
+
+.spo-variants__container {
+  padding-right: 10px;
+}
+
+.spo-variants .swiper-notification {
+  display: none;
+}
+
+.spo-swiper {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  position: static;
+  width: 100%;
+  overflow: hidden;
+}
+.spo-swiper .swiper-slide {
+  flex: unset;
+}
+.spo-variants__item {
+  display: block;
+  padding: 10px;
+}
+.spo-variants__item:not(:first-of-type) {
+  border-left: 1px solid #ccc
+}
+.spo-variants__menu {
+  display: flex;
+  list-style: none;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+.spo-variant__header {
+  margin: 0;
+  text-align: left;
+  font-size: .8em;
+  font-weight: normal;
+  text-transform: uppercase;
+  margin: 0 0 .5em 5px;
+}
+.spo-variants__item li {
+  white-space: nowrap;
+}
+.spo-variants__menu [type="radio"] {
+  display: none;
+}
+.spo-variants__menu [type="radio"] + label {
+  display: block;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.spo-variants__menu [type="radio"]:checked + label {
+  color: #fff;
+  background: #000;
+  border-color: #000;
+}
+
+.spo-buttons {
+  display: block;
+}
+.spo-buttons > :last-child {
+  width: 100%;
+}
+.spo-quantity-field {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  margin-bottom: 5px;
+}
+
+.spo-buttons input, .spo-buttons button {
+  padding: 10px;
+  background: white;
+  border: 1px solid #ccc;
+  min-width: 50px;
+  outline: 0;
+  text-align: center;
+}
+.spo-buttons button {
+  cursor: pointer;
+}
+.spo-buttons input {
+  border-left: 0;
+  border-right: 0;
+}
+.spo-button {
+  position: absolute;
+  width: 60px;
+  background: linear-gradient(to right, #fff, transparent);
+  height: 100%;
+  top: 0;
+  left: 0;
+  border: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity .3s;
+}
+
+.spo fieldset {
+  margin: 0
+}
+
+/* Botones (Arrows) */
+.spo-variantArrow {
+  display: block;
+  width: 10px;
+  height: 20px;
+  background: transparent;
+  font-size: 14px;
+  padding: 0;
+  border: 0;
+  color: #000;
+  display: none;
+}
+.spo-variantArrow:disabled {
+  opacity: 0;
+}
+.spo-variantArrow svg {
+  transform: rotate(90deg);
+}
+.spo-variantArrow--next svg {
+  transform: rotate(-90deg);
+}
+
+.spo.only-pay {
+  display: block;
+}
+.spo.only-pay .spo-variants {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .only-pay:not(.not-quantity) .spo-buttons {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+  }
+  .only-pay:not(.not-quantity) .spo-quantity-field {
+    margin: 0;
+  }
+  .spo {
+    padding-left: {{ section.settings.sticky-atc_horizontal-padding}}px;
+    padding-right: {{ section.settings.sticky-atc_horizontal-padding}}px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .spo {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.5);
+    backdrop-filter: blur(2px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    bottom: -100%;
+    transition: all .5s;
+  }
+  .spo-variantArrow {
+    display: none;
+  }
+  .spo-variants, .spo-buttons {
+    background: #fff;
+    width: 100%;
+  }
+  .spo-variants {
+    border-radius: 10px 10px 0 0;
+    padding: 10px;
+    height: auto;
+    grid-template-columns: auto 1fr;
+  }
+  .spo-swiper {
+    grid-column: span 2;
+  }
+  .spo-buttons {
+    padding: 10px;
+    border-radius: 0 0 10px 10px;
+  }
+  .spo-variants__item:not(:first-of-type) {
+    border: 0;
+  }
+  .spo:not(.confirm) {
+    height: fit-content;
+    background: #fff;
+    border-bottom: 0;
+    border-top: 1px solid #ccc;
+  }
+  .spo.spo-show {
+    bottom: 0;
+  }
+  .spo:not(.confirm) .spo-variants {
+    display: none;
+  }
+}
+.spo-buttons > button {
+    font-family: var(--font-body-family);
+}
+.spo-buttons > button:hover {
+    background: rgba(var(--color-button), var(--alpha-button-background));
+    color: rgb(var(--color-button-text));
+}
+
+.spo__logo {
+    display: block;
+  }
+  .spo__logo img {
+    height: 80px;
+    max-width: auto;
+  }
+  
+</style>
+<sticky-product-options class="spo" data-bp="768" data-section-id="{{ section.id }}">
+    <div class="spo-variants">
+      {% if section.settings.enable_image %}    
+       <div class="spo__logo">
+          <img src="{{ product.featured_image | img_url: 'medium' }}">
+        </div>
+      {% endif %}
+      {% if section.settings.enable_content %}  
+      <div class="spo-variant--text-content">
+        {% if section.settings.enable_title %}      
+          <h3 style="margin:0; margin-bottom: .2em">{{ product.title }}</h3>
+        {% endif %}
+          <div class="spo-price">{{ product.price | money_with_currency}}</div>
+      </div>
+      {% endif %}
+      {% if section.settings.enable_sacVariants %}
+        <button class="spo-variantArrow spo-variantArrow--prev">
+          {% render 'icon-caret' %}
+        </button>
+        <div class="spo-swiper">
+          <div class="spo-variants__container swiper-wrapper" id="variants-container"></div>
+        </div>
+        <button class="spo-variantArrow spo-variantArrow--next">
+          {% render 'icon-caret' %}
+        </button>
+      {% endif %}
+    </div>
+    <div class="spo-buttons {% unless section.settings.enable_sacQuantity %}not-quantity{% endunless %}">
+      {% if section.settings.enable_sacQuantity %}
+        <div class="spo-quantity-field" id="quantity-container">
+          <button id="decrement">-</button>
+          <input type="number" value="1" min="1" id="quantity">
+          <button id="increment">+</button>
+        </div>
+      {% endif %}
+      <button id="submit">Add to cart</button>
+    </div>
+</sticky-product-options>
+<script>
+  window.SwiperRoute = "{{ 'swiper-bundle.esm.browser.js' | asset_url }}"
+</script>
+<script type="module" defer>
+  import "{{ 'sticky-menu.js' | asset_url }}"
+</script>

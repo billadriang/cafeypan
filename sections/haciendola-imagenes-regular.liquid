@@ -1,0 +1,615 @@
+<style>
+
+  {% if section.settings.irregular_section %}
+
+    #regular-image-section {
+      background: linear-gradient(0deg, rgba({{ section.settings.color1.red }}, {{ section.settings.color1.green }}, {{ section.settings.color1.blue }}, 1) {{section.settings.gradient_position}}%, rgba({{ section.settings.color2.red }}, {{ section.settings.color2.green }}, {{ section.settings.color2.blue }}, 1) {{section.settings.gradient_position}}% );
+    }
+  {% endif %}
+
+
+  .section--grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #regular-image-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .grid--content .grid--content-text {
+    padding: 0px 50px;
+    height: 50%;
+  }
+
+  .grid--content-body p {
+    margin: 0;
+    line-height: 1.1;
+  }
+
+  {% for block in section.blocks %}
+    #grid--image-{{ block.id }} {
+      padding: {{ block.settings.image_padding}}px;
+    }
+
+    #grid--content-{{ block.id }} {
+      display: flex;
+      {% if block.settings.reverse_rows %}
+        flex-direction: column-reverse;
+      {% else%}
+        flex-direction: column;
+      {% endif %}
+      justify-content: center;
+    }
+
+    #grid--content-{{ block.id }} .grid--content-small-img {
+      padding: {{ block.settings.padding }}px;
+      height: {{ block.settings.image_height }}%;
+      background-color: {{ block.settings.block_bg_color }};
+    }  
+
+    .grid--content #grid--content-text-{{ block.id }} .grid--content-heading {
+      color: {{ block.settings.heading_color }};
+      font-size: {{ block.settings.heading_fs }}px;
+    }
+
+
+    .grid--content .grid--content-heading p {
+      margin: 0;
+    }
+
+    .grid--content #grid--content-text-{{ block.id }} {
+      background-color: {{ block.settings.bg_color }};
+      {% if block.settings.reverse_rows %}
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      {% endif %}
+    }
+
+    .grid--content #grid--content-text-{{ block.id }} .grid--content-body {
+      color: {{ block.settings.body_color }};
+      font-size: {{ block.settings.body_fs }}px;
+    }
+
+
+
+
+    #grid--content-text-{{ block.id }} .button_underline {
+      color: {{ block.settings.button_color }};
+    }
+
+    {% if section.settings.irregular_section %}
+      .grid--content #grid--content-text-{{ block.id }},
+      #grid--content-{{ block.id }} .grid--content-small-img {
+        background-color: transparent;
+      }
+    {% endif %}
+
+  {% endfor %}
+
+  .grid--content .grid--content-text > * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .grid-content--mobile-img {
+    display: none;
+  }
+
+  @media screen and (max-width: 768px) {
+
+    #regular-image-section {
+      background: transparent;
+    }
+
+    .section--grid {
+      display: flex;
+    }
+
+    .grid-content--mobile-img {
+      display: block;
+      height: 50%;
+    }
+
+    .grid--content-small-img {
+      display: none;
+    }
+
+    .grid--image {
+      display: none;
+    }
+
+    .grid--content .grid--content-text {
+     height: 100%;
+    }
+
+    {%- for block in section.blocks -%}
+
+      .grid--content #grid--content-text-{{ block.id }} .grid--content-heading {
+        font-size: {{ block.settings.heading_mobile_fs}}px;
+      }
+      .grid--content #grid--content-text-{{ block.id }} .grid--content-body {
+        font-size: {{ block.settings.body_mobile_fs }}px;
+      }
+    {%- endfor -%}
+  }
+
+  .grid--image__inner {
+    position: relative;
+  }
+  .grid--image__content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: var(--h-position);
+    align-items: var(--v-position);
+    padding: var(--content-spacing);
+    text-align: var(--text-align);
+    color: var(--text-color);
+  }
+  .grid--image__title {
+    margin: 0;
+    text-align: var(--text-align);
+    color: var(--text-color);
+  }
+  .grid--image__body {
+    margin: 0;
+    text-align: var(--text-align);
+    color: var(--text-color);
+  }
+  .grid--image__body p {
+    margin: .5rem 0;
+    font-size: 18px;
+  }
+  .grid--image__link {
+    color: inherit;
+    text-align: var(--text-align);
+    color: var(--text-color)
+  }
+
+
+
+</style>
+
+<section id="regular-image-section">
+  <div class="section--grid">
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'big_image' %}
+          <div id="grid--image-{{ block.id }}" class="grid--image">
+            <div class="grid--image__inner">
+              {% if block.settings.image != blank %}
+                <img
+                  src="{{ block.settings.image | img_url: 'master'}}"
+                  alt="{{block.settings.image.alt}}"
+                  loading="lazy"
+                  height="{{ block.settings.image.height }}"
+                  width="{{ block.settings.image.width }}"
+                >
+              {% else %}
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              {% endif %}
+
+              <div
+                class="grid--image__content"
+                style="
+                  --h-position: {{ block.settings.h-position }};
+                  --v-position: {{ block.settings.v-position }};
+                  --text-align: {{ block.settings.text-alignment }};
+                  --text-color: {{ block.settings.color }};
+                  --content-spacing: {{ block.settings.content-spacing }}px;
+                "
+              >
+                <div class="grid--image__content-wrapper">
+                  {% if block.settings.title != blank %}
+                    <h1 class="grid--image__title">{{ block.settings.title }}</h1>
+                  {% endif %}
+                  {% if block.settings.body != blank %}
+                    <div class="grid--image__body">{{ block.settings.body }}</div>
+                  {% endif %}
+                  {% if block.settings.link != blank %}
+                    <a href="{{ block.settings.link }}" class="grid--image__link">{{ block.settings.link-text }}</a>
+                  {% endif %}
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          {%- when 'text' -%}
+            <div id="grid--content-{{ block.id }}" class="grid--content">
+              {% if block.settings.image != blank %}
+              <div class="grid--content-small-img">
+                  <img 
+                    src="{{ block.settings.image | img_url: 'master'}}" 
+                    alt="{{ block.settings.image.alt }}"
+                    height="0"
+                    width="0"
+                    loading="lazy"
+                  > 
+                </div>
+              {% endif %}
+
+              <div id="grid--content-text-{{ block.id }}" class="grid--content-text" style="text-align: {{ block.settings.text_alignment }} ;">
+                <div class="grid-content--mobile-img">
+                  <img 
+                    src="{{ block.settings.mobile_image | img_url: 'master'}}" 
+                    alt="{{ block.settings.mobile_image.alt }}"
+                    height="{{ block.settings.mobile_image.height}}"
+                    width="{{ block.settings.mobile_image.width }}"
+                    loading="lazy"
+                  > 
+                </div>
+                <div class="grid--content-heading">{{ block.settings.heading }}</div>
+                <div class="grid--content-body">
+                  <p>{{ block.settings.body }}</p>
+                </div>
+                {%- if block.settings.button_label != blank -%}
+                <a{% if block.settings.button_link == blank %} role="link" aria-disabled="true"{% else %} href="{{ block.settings.button_link }}"{% endif %} class="button button custom--primary" style="margin-top: 25px ;" {{ block.shopify_attributes }}>
+                  {{ block.settings.button_label | escape }}
+                </a>
+              {%- endif -%}
+              </div>
+            </div>
+      {% endcase %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "H - Text and images",
+  "settings": [
+    {
+      "type": "color",
+      "id": "color1",
+      "label": "Color 1",
+      "default": "#EFECE8"
+    },
+    {
+      "type": "color",
+      "id": "color2",
+      "label": "Color 2",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "gradient_position",
+      "label": "Gradient position",
+      "unit": "%",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 80
+    },
+    {
+      "type": "checkbox",
+      "id": "irregular_section",
+      "label": "Make section irregular",
+      "default": true,
+      "info": "Turns off background colors for small image and text content"
+    },
+    {
+      "type": "checkbox",
+      "id": "small_image",
+      "label": "Make small image full height",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+     "type": "big_image",
+     "name": "Main image",
+     "limit": 1,
+     "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "label"
+        },
+        {
+          "type": "range",
+          "id": "image_padding",
+          "label": "Image padding",
+          "unit": "px",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 0
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "link-text",
+          "label": "Link Text"
+        },
+        {
+          "type": "select",
+          "id": "h-position",
+          "label": "Horizontal position",
+          "options": [
+            {
+              "value": "flex-start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "flex-end",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "v-position",
+          "label": "Vertical position",
+          "options": [
+            {
+              "value": "flex-start",
+              "label": "Top"
+            },
+            {
+              "value": "center",
+              "label": "Middle"
+            },
+            {
+              "value": "flex-end",
+              "label": "Bottom"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "text-alignment",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Text color"
+        },
+        {
+          "type": "range",
+          "id": "content-spacing",
+          "label": "Content spacing",
+          "unit": "px",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "default": 0
+        }
+     ]
+    },
+    {
+     "type": "text",
+     "name": "Text and image",
+     "limit": 1,
+     "settings": [
+        {
+          "type": "header",
+          "content": "Order settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "reverse_rows",
+          "label": "Reverse rows",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Text content settings"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "richtext",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "color",
+          "id": "heading_color",
+          "label": "Heading color",
+          "default": "#000"
+        },
+        {
+          "type": "range",
+          "id": "heading_fs",
+          "label": "Heading font size",
+          "unit": "px",
+          "min": 10,
+          "max": 55,
+          "step": 1,
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "heading_mobile_fs",
+          "label": "Heading mobile font size",
+          "unit": "px",
+          "min": 10,
+          "max": 55,
+          "step": 1,
+          "default": 18
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body"
+        },
+        {
+          "type": "color",
+          "id": "body_color",
+          "label": "Body text color",
+          "default": "#fff"
+        },
+        {
+          "type": "range",
+          "id": "body_fs",
+          "label": "Body font size",
+          "unit": "px",
+          "min": 10,
+          "max": 55,
+          "step": 1,
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "body_mobile_fs",
+          "label": "Body mobile font size",
+          "unit": "px",
+          "min": 10,
+          "max": 55,
+          "step": 1,
+          "default": 18
+        },
+        {
+          "type": "header",
+          "content": "Background settings"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background color",
+          "default": "#FFF"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "Button label",
+          "label": "t:sections.image-with-text.blocks.button.settings.button_label.label",
+          "info": "t:sections.image-with-text.blocks.button.settings.button_label.info"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.image-with-text.blocks.button.settings.button_link.label"
+        },
+        {
+          "type": "color",
+          "id": "button_color",
+          "label": "Button color",
+          "default": "#000"
+        },
+       {
+         "type": "header",
+         "content": "Image settings"
+       },
+       {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Block image"
+      },
+      {
+        "type": "range",
+        "id": "image_height",
+        "label": "Image height",
+        "unit": "%",
+        "min": 50,
+        "max": 100,
+        "step": 5,
+        "default": 50
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_image",
+        "label": "Mobile image",
+        "info": "Will show only in mobile devices as the main image"
+      },
+      {
+        "type": "range",
+        "id": "padding",
+        "label": "Image padding",
+        "unit": "px",
+        "min": 0,
+        "max": 100,
+        "step": 10,
+        "default": 50
+      },
+      {
+        "type": "color",
+        "id": "block_bg_color",
+        "label": "Background color",
+        "default": "#FFF"
+      }
+     ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "H - Text and images",
+      "blocks": [
+        {
+         "type": "big_image"
+        },
+        {
+         "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

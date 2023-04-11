@@ -1,0 +1,217 @@
+.text-and-image .grid {
+  margin-bottom: 0;
+}
+
+.text-and-image .grid__item {
+  position: relative;
+}
+
+@media screen and (min-width: 750px) {
+  .text-and-image__grid--reverse {
+    flex-direction: row-reverse;
+  }
+}
+
+.text-and-image__media {
+  min-height: 100%;
+  overflow: visible;
+}
+
+.text-and-image__media--small {
+  height: 19.4rem;
+}
+
+.text-and-image__media--large {
+  height: 43.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .text-and-image__media--small {
+    height: 31.4rem;
+  }
+
+  .text-and-image__media--large {
+    height: 69.5rem;
+  }
+}
+
+.text-and-image__media--placeholder {
+  position: relative;
+  overflow: hidden;
+}
+
+.text-and-image__media--placeholder:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(var(--color-foreground), 0.04);
+}
+
+.text-and-image__media--placeholder.text-and-image__media--adapt {
+  height: 20rem;
+}
+
+@media screen and (min-width: 750px) {
+  .text-and-image__media--placeholder.text-and-image__media--adapt {
+    height: 30rem;
+  }
+}
+
+.text-and-image__media--placeholder > svg {
+  position: absolute;
+  left: 50%;
+  max-width: 80rem;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  fill: currentColor;
+}
+
+.text-and-image__content {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  align-self: center;
+  padding: 4rem calc(4rem / var(--font-body-scale)) 5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.text-and-image .grid__item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+
+.text-and-image .text-and-image__media-item > * {
+  border-radius: var(--media-radius);
+  overflow: hidden;
+}
+
+.text-and-image .global-media-settings {
+  overflow: hidden !important;
+}
+
+.text-and-image .text-and-image__text-item > * {
+  border-radius: var(--text-boxes-radius);
+  overflow: hidden;
+}
+
+
+.text-and-image__content--mobile-right > * {
+  align-self: flex-end;
+  text-align: right;
+}
+
+.text-and-image__content--mobile-center > * {
+  align-self: center;
+  text-align: center;
+}
+
+
+@media screen and (min-width: 750px) {
+  .text-and-image__grid--reverse .text-and-image__content {
+    margin-left: auto;
+  }
+
+  .text-and-image__content--bottom {
+    justify-content: flex-end;
+    align-self: flex-end;
+  }
+
+  .text-and-image__content--top {
+    justify-content: flex-start;
+    align-self: flex-start;
+  }
+
+  .text-and-image__content--desktop-right > * {
+    align-self: flex-end;
+    text-align: right;
+  }
+
+  .text-and-image__content--desktop-left > * {
+    align-self: flex-start;
+    text-align: left;
+  }
+
+  .text-and-image__content--desktop-center > * {
+    align-self: center;
+    text-align: center;
+  }
+
+
+  .text-and-image__media-item--small,
+  .text-and-image__media-item--large + .text-and-image__text-item {
+    flex-grow: 0;
+  }
+
+}
+
+
+.text-and-image__content {
+  border-radius: var(--text-boxes-radius);
+  background-color: var(--color-background-primary);
+}
+
+@media screen and (min-width: 990px) {
+  .text-and-image__content {
+    padding: 4rem;
+  }
+}
+
+.text-and-image__content > * + * {
+  margin-top: 2rem;
+}
+
+.text-and-image__content > .text-and-image__text:empty ~ a {
+  margin-top: 2rem;
+}
+
+.text-and-image__content > :first-child:is(.text-and-image__heading),
+.text-and-image__text--caption + .text-and-image__heading,
+.text-and-image__text--caption:first-child {
+  margin-top: 0;
+}
+
+.text-and-image__content :last-child:is(.text-and-image__heading),
+.text-and-image__text--caption {
+  margin-bottom: 0;
+}
+
+.text-and-image__content .button + .text-and-image__text {
+  margin-top: 2rem;
+}
+
+.text-and-image__content .text-and-image__text + .button {
+  margin-top: 3rem;
+}
+
+.text-and-image__heading {
+  word-break: break-word;
+  margin-bottom: 0;
+}
+
+.text-and-image__text p {
+  word-break: break-word;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.text-and-image__text-item {
+  background-color: var(--hfti-content-bg);
+}
+
+/* check for flexbox gap in older Safari versions */
+@supports not (inset: 10px) {
+  .text-and-image .grid {
+    margin-left: 0;
+  }
+}

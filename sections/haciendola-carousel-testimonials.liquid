@@ -1,0 +1,323 @@
+{{ 'content-carousel.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+.content-carousel {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+.embla__container {
+  min-height: 100%;
+}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  .section-{{ section.id }}.color-custom {
+    background-color: {{ section.settings.custom_bg_color }};
+    color: {{ section.settings.custom_text_color }};
+  }
+
+  .section-{{ section.id }} .testimonial__title {
+    font-size: {{ section.settings.text_font_size }}em;
+    color: {{ section.settings.custom_text_color }};
+    text-align: center;
+    margin-bottom: 0;
+    margin-left: 0;
+  }
+  .embla__slide {
+    flex: 1;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} .embla__slide {
+      --embla-slide-width: 50%;
+    }
+    .section-{{ section.id }} .testimonial__title {
+      text-align: left;
+      margin-left: 60px;
+    }
+  }
+  .section-{{ section.id }} .embla__slide__inner {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} .embla__slide__inner {
+      flex-direction: row;
+    }
+  }
+  .section-{{ section.id }} .embla__slide__inner .testimonial__column:first-child {
+    width: 100%;
+    background-color: var(--bg-color, transparent);
+    color: var(--text-color, #444);
+    padding: 1.5rem;
+    order: 2;
+    flex: 1;
+  }
+  .section-{{ section.id }} .embla__slide__inner .testimonial__column:last-child {
+    height: auto;
+    width: 100%;
+    height: 14rem;
+    order: 1;
+  }
+  @media only screen and (min-width: 750px) {
+    .section-{{ section.id }} .embla__slide__inner .testimonial__column:first-child {
+      width: 80%;
+      padding: 2rem;
+      order: 1;
+    }
+    .section-{{ section.id }} .embla__slide__inner .testimonial__column:last-child {
+      width: 20%;
+      order: 2;
+      height: 100%;
+    }
+  }
+  .testimonial__image {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .testimonial__image img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  @media only screen and (min-width: 750px) {
+    .testimonial__image img {
+      object-fit: cover;
+      width: 100%;
+      height: 250px;
+    }
+  }
+  .section-{{ section.id }} .embla__button {
+    top: 40%;
+    transform: translateY(-40%) scale(1);
+  }
+  {% for block in section.blocks %}
+    .block-{{ block.id }} .testimonial__text p {
+      font-size: {{ block.settings.testimonial_font_size }}em;
+      color: {{ block.settings.testimonial_color }};
+    }
+    .block-{{ block.id }} .testimonial__author h3 {
+      font-size: {{ block.settings.author_font_size }}em;
+      color: {{ block.settings.author_color }};
+    }
+  {% endfor %}
+    .section-{{ section.id }} .embla__button:hover {
+      transform: translateY(-40%) scale(1.1);
+    }
+{%- endstyle -%}
+
+<section class="gradient section-{{ section.id }}">
+  <div class="section-{{ section.id }}-padding {% unless section.settings.full_width %} page-width{% endunless %}">
+    <h2 class="testimonial__title">{{ section.settings.heading }}</h2>
+    <div class="content-carousel">
+        <content-carousel id="Slider-{{ section.id }}" class="embla"
+          data-loop="true" 
+          data-start-index="0" 
+          data-speed="600" 
+          data-draggable="true"
+          data-align="start"
+          data-slides-to-show="2"
+          >
+          <!-- Slider main container -->
+          <div class="embla__viewport overflow-hidden" style="max-width: 100%; overflow: hidden;">
+            <!-- Additional required wrapper -->
+            <div class="embla__container">
+              {% for block in section.blocks %}
+              <div class="embla__slide block-{{ block.id }}" {{ block.shopify_attributes }}>
+                <div class="embla__slide__inner">
+                  <div class="testimonial__column" style="--bg-color: {{ block.settings.background_color }}; --text-color: {{ block.settings.testimonial_color }};">
+                    <div class="testimonial__text">
+                      <p>{{ block.settings.content }}</p>
+                    </div>
+                    <div class="testimonial__author">
+                      <h3>{{ block.settings.author }}</h3>
+                    </div>
+                  </div>
+                  <div class="testimonial__column">
+                    <div class="testimonial__image">
+                      {% if block.settings.image != null %}
+                        <img src="{{ block.settings.image | image_url }}" loading="lazy" width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}" />
+                      {% else %}
+                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+
+          </div>
+          <button class="embla__button embla__button--prev">
+            <svg  class="icon icon-caret" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6.71996 14L8.12696 12.56L3.84496 8.28L23.908 8.28L23.908 6.28L3.84496 6.28L8.12696 2L6.71996 0.559999L0.71996 6.56L-4.13742e-05 7.28L0.71996 8L6.71996 14Z" fill="currentColor"/>
+            </svg>
+          </button>
+          <button class="embla__button embla__button--next">
+            <svg class="icon icon-caret" viewBox="0 0 24 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.1878 0L15.7808 1.44L20.0628 5.72H-0.000244141V7.72H20.0628L15.7808 12L17.1878 13.44L23.1878 7.44L23.9078 6.72L23.1878 6L17.1878 0V0Z" fill="currentColor"/>
+            </svg>
+          </button>
+        </content-carousel>
+
+      </div>
+  </div>
+</section>
+<script type="module" defer>
+  import "{{ 'embla-carousel.umd.js' | asset_url }}"
+  import "{{ 'content-carousel.js' | asset_url }}" 
+</script>
+
+{% schema %}
+{
+  "name": "H - Testimonials",
+  "class": "slider-sidebar",
+  "settings": [
+    {
+      "type": "text",
+      "label": "Title",
+      "id": "heading",
+      "default": "Testimonials"
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "label": "Text Font Size",
+      "unit": "em",
+      "default": 1.5,
+      "min": 0.5,
+      "max": 2.5,
+      "step": 0.1
+    },
+    {
+      "type": "color",
+      "id": "custom_bg_color",
+      "default": "#ffffff",
+      "label": "Background Color",
+      "info": "Solo para el color custom"
+    },
+    {
+      "type": "color",
+      "id": "custom_text_color",
+      "default": "#000000",
+      "label": "Text Color",
+      "info": "Solo para el color custom"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "default": false,
+      "label": "t:sections.rich-text.settings.full_width.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 52
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "color",
+          "id": "background_color",
+          "default": "#ffffff",
+          "label": "Background Color"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Foto"
+        },
+        {
+          "type": "text",
+          "label": "Autor",
+          "id": "author",
+          "default": "John Doe"
+        },
+        {
+          "type": "color",
+          "id": "author_color",
+          "default": "#444444",
+          "label": "Autor Color"
+        },
+        {
+          "type": "range",
+          "id": "author_font_size",
+          "label": "Text Font Size",
+          "unit": "em",
+          "default": 1,
+          "min": 0.5,
+          "max": 1.5,
+          "step": 0.1
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Testimonio",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget consectetur consectetur</p>"
+        },
+        {
+          "type": "color",
+          "id": "testimonial_color",
+          "default": "#444444",
+          "label": "Text Color"
+        },
+        {
+          "type": "range",
+          "id": "testimonial_font_size",
+          "label": "Text Font Size",
+          "unit": "em",
+          "default": 1,
+          "min": 0.5,
+          "max": 1.5,
+          "step": 0.1
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "H - Testimonials"
+    }
+  ]
+}
+{% endschema %}

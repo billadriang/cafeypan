@@ -1,0 +1,433 @@
+{%- style -%}
+.section-{{ section.id }}-padding {
+  padding-top: calc({{ section.settings.padding_top }}px * 0.75);
+  padding-bottom: calc({{ section.settings.padding_bottom }}px  * 0.75);
+}
+
+@media screen and (min-width: 750px) {
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+}
+
+.section-{{ section.id }}.color-custom {
+  background-color: {{ section.settings.custom_background_color }};
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+{% if section.settings.show_divider %}
+@media only screen and (min-width: 750px) {
+  .section-{{ section.id }}-padding > :not([hidden]) ~ :not([hidden]) {
+    border-top-width: 1px;
+    border-bottom-width: 0;
+
+    
+    border-right-width: 0;
+    border-left-width: 0;
+
+    border-style: solid;
+    border-color: rgb({{ section.settings.custom_divider_color.red }} {{ section.settings.custom_divider_color.green }} {{ section.settings.custom_divider_color.blue }} / {{ section.settings.custom_divider_color.alpha }});
+
+  }
+  @media (min-width: 768px) {
+    .section-{{ section.id }}-padding > :not([hidden]) ~ :not([hidden]) {
+      border-top-width: 0;
+      border-bottom-width: 0;
+    
+      border-right-width: 0;
+      border-left-width: 1px;
+    }
+  }
+  .incentivo:nth-child(3n) {
+    border-top-width: 0 !important;
+  }
+}
+{% endif %}
+.incentivo {
+  padding-top: 2rem/* 32px */;
+  padding-bottom: 2rem/* 32px */;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .incentivo {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+}
+@media (min-width: 1024px) {
+  .incentivo {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+}
+.incentivo__container {
+  margin-inline: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 6px;
+  text-align: center;
+}
+@media (min-width: 750px) {
+  .incentivo__container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0;
+    text-align: left;
+  }
+}
+.incentivo__container img {
+  flex-shrink: 0;
+  height: var(--icon-width)/* 32px */;
+  width: auto;
+}
+.incentivo__content > * {
+  margin: 0;
+}
+.incentivo__content {
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: var(--incentivo-direction);
+}
+.incentivo__content h3 {
+  font-size: {{ section.settings.title_size | append: 'em' }};
+}
+.incentivo__content p {
+  font-size: {{ section.settings.description_size | append: 'em' }}
+}
+
+.incentivo_link {
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+{% if section.settings.hide_description %}
+  @media screen and (max-width: 768px) {
+    .incentivo__content--description {
+      display: none;
+    }
+  }
+{% endif %}
+
+{% for block in section.blocks %}
+  
+  .block-{{ block.id }} .incentivo__container img {
+    --icon-width: {{ section.settings.icon_size | append: 'rem' }};
+  }
+  .block-{{ block.id }} .incentivo__content {
+    --incentivo-direction: {% if block.settings.revert_direction %}column-reverse{% else %}column{% endif %};
+  }
+  .block-{{ block.id }} .incentivo__content h3 {
+    color: {{ block.settings.title_text_color }};
+    {% if block.settings.make_title_uppercase %}
+    text-transform: uppercase;
+    {% endif %}
+
+    {% if block.settings.make_title_bold %}
+    font-weight: 600;
+    {% endif %}
+
+  }
+  .block-{{ block.id }} .incentivo__content p {
+    color: {{ block.settings.description_text_color }};
+  }
+{% endfor %}
+
+@media screen and (min-width: 768px) {
+  .section-{{ section.id }} .haciendola-carousel__container {
+    justify-content: center;
+    margin: 0;
+  }
+}
+
+{%- endstyle -%}
+
+<div class="gradient section-{{ section.id }}">
+  <h2 class="sr-only">Nuestros incentivos</h2>
+  <div class="page-width section-{{ section.id }}-padding">
+    <haciendola-carousel id="slider-{{ section.id }}">
+      {% for block in section.blocks %}
+        <div class="incentivo block-{{ block.id }}">
+          {%- if block.settings.link != blank -%} <a href="{{ block.settings.link }}" target="_blank" class="incentivo_link"> </a>{%- endif -%}
+          <div class="incentivo__container lg:max-w-none lg:px-8">
+            {% if block.settings.image != blank and section.settings.icon_type == 'png' %}
+            <img src="{{ block.settings.image | image_url }}" loading="lazy" width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}" />
+            {% elsif section.settings.icon_type == 'svg' %}
+            
+            <img src="{{ block.settings.svg_icon | append: '.svg' | asset_url }}" loading="lazy" width="{{ block.settings.icon.width }}"
+              height="{{ block.settings.icon.height }}" />
+            {% endif %}
+            <div class="incentivo__content">
+              <h3 class="incentivo__content--description">{{ block.settings.title }}</h3>
+              <p>{{ block.settings.description }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </haciendola-carousel>
+  </div>
+  
+</div>
+
+<script type="module">
+  const slider = document.getElementById(`slider-{{ section.id }}`)
+  slider.configure({
+    slidesPerView: 1,
+    slidesToScroll: 1,
+    gap: 40,
+    autoplay: true,
+    loop: true,
+    controls: {
+      arrows: false,
+      dots: true
+    },
+    dotsSettings: {
+      renderMode: 'flow'
+    },
+    breakpoints: {
+      750: {
+        slidesPerView: 3,
+      }
+    }
+  })
+</script>
+
+{% schema %}
+{
+  "name": "H - Incentivos",
+  "class": "incentivos",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "incentivo",
+      "name": "Incentivo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Icono del incentivo"
+        },
+        {
+          "type": "text",
+          "id": "svg_icon",
+          "label": "Nombre del icono",
+          "info": "Aquí se escriben el nombre del icono en formato SVG. Por ejemplo: 'icon-incentivo'"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título del incentivo"
+        },
+        {
+          "type": "color",
+          "id": "title_text_color",
+          "label": "Color de título",
+          "default": "#444444"
+        },
+        {
+          "type": "checkbox",
+          "id": "make_title_bold",
+          "label": "¿Título en negrita?",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "make_title_uppercase",
+          "label": "¿Título en mayúsculas?",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Descripción del incentivo",
+          "default": "We’ll replace it with a new one"
+        },
+        {
+          "type": "color",
+          "id": "description_text_color",
+          "label": "Color de descripción",
+          "default": "#000000"
+        },
+        {
+          "type": "checkbox",
+          "id": "revert_direction",
+          "label": "Invertir dirección",
+          "default": true
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon_type",
+      "label": "Tipo de icono",
+      "options": [
+        {
+          "value": "svg",
+          "label": "SVG"
+        },
+        {
+          "value": "png",
+          "label": "PNG"
+        }
+      ],
+      "default": "svg",
+      "info": "Si el icono es un SVG, se debe cargar a la carpeta assets y escribir su nombre en cada bloque."
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 2.0,
+      "max": 6.0,
+      "step": 0.5,
+      "unit": "rem",
+      "label": "Tamaño del icono",
+      "default": 2.0
+    },
+    {
+      "type": "color",
+      "id": "custom_background_color",
+      "label": "Fondo personalizado",
+      "default": "#ffffff",
+      "info": "Solo aplica si se elige como color personalizado en la opción anterior 'color'"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_divider",
+      "label": "Mostrar divisor en desktop",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "custom_divider_color",
+      "label": "Color del divisor",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Tamaño de título",
+      "default": 0.5,
+      "min": 0.5,
+      "max": 2,
+      "step": 0.1
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Tamaño de descripción",
+      "default": 0.7,
+      "min": 0.4,
+      "max": 2,
+      "step": 0.1
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Mobile settings"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alineación de los items",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Izquierda"
+        },
+        {
+          "value": "center",
+          "label": "Centro"
+        },
+        {
+          "value": "flex-end",
+          "label": "Derecha"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_description",
+      "label": "Hide description in mobile",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "H - Incentivos",
+      "blocks": [
+        {
+          "type": "incentivo",
+          "settings": {
+            "description": "Calidad superior y duradera",
+            "svg_icon": "calidad"
+          }
+        },
+        {
+          "type": "incentivo",
+          "settings": {
+            "description": "Fabricamos con materiales locale",
+            "svg_icon": "materiales-locales"
+          }
+        },
+        {
+          "type": "incentivo",
+          "settings": {
+            "description": "Despacho gratis a todo Chile",
+            "svg_icon": "despacho-gratis"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,164 @@
+<style>
+  {% if section.settings.message_show %}
+  .announcement {
+    background-color: {{ section.settings.message_color_bg }};
+    padding: 10px 20px;
+    text-align: center;
+  }
+  .announcement__text,
+  .announcement__text.rte a {
+    color: {{ section.settings.message_color_text }};
+  }
+  .announcement__text.rte a {
+    border-color: {{ section.settings.message_color_text }};
+  }
+  .announcement__text p {
+    margin: 0;
+    padding: 0;
+  }
+  .announcement__text:hover p > * {
+    text-decoration: none;
+    color: var(--shopify-editor-setting-btn_col_alt);
+  }
+
+  .announcement__link {
+    text-decoration: none;
+  }
+
+  @media screen and (max-width: 600px) {
+    .announcement__link {
+      font-size: 12px
+    }
+  }
+
+  @media screen and (max-width: 375px) {
+    .announcement__link {
+      font-size: 10px
+    }
+  }
+{% endif %}
+
+#announcement-swiper {
+  overflow: hidden;
+}
+
+{% if section.settings.hide_mobile %}
+@media screen and (max-width: 500px) {
+  #announcement-swiper {
+    display: none;
+  }
+}
+{% endif %}
+
+</style> 
+
+{% if section.settings.message_show %}
+  {% if section.settings.home_page_only == false or template.name == 'index' %}
+    <div class="swiper" id="announcement-swiper" data-duration="{{ section.settings.duration }}" data-transition="{{ section.settings.transition }}">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <div class="swiper-slide" {{ block.shopify_attributes }}>
+            <div class="announcement js-announcement">
+              <a href="{{ block.settings.link }}" class="announcement__link announcement__text" {% if block.settings.target_blank %} target="_blank" {% endif %}>
+                {{ block.settings.content | replace: '<a', '<span' | replace: '</a>', '</span>' }}
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+{% endif %}
+
+<script type="module">
+  const slider = document.getElementById('announcement-swiper')
+  if(slider) document.body.style.setProperty('--announcement-height', `${slider.offsetHeight}px`)
+</script>
+
+{% schema %}
+{
+  "name": "H - Announcement bar",
+  "class": "js-section__announcement",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "message_show",
+      "label": "Enable announcement bar",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "home_page_only",
+      "label": "Home page only",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "message_color_bg",
+      "label": "Background color",
+      "default": "#222"
+    },
+    {
+      "type": "color",
+      "id": "message_color_text",
+      "label": "Text color",
+      "default": "#fff"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_mobile",
+      "label": "Hide in mobile",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Timing"
+    },
+    {
+      "type": "range",
+      "id": "duration",
+      "label": "Duration of slide",
+      "unit": "s",
+      "min": 1,
+      "max": 10,
+      "step": 0.5,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "transition",
+      "label": "Transition velocity",
+      "unit": "s",
+      "min": 0.5,
+      "max": 3,
+      "step": 0.5,
+      "default": 1
+    }
+  ],
+  "blocks": [
+    {
+      "type": "annuncement",
+      "name": "Announcement Item",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "info": "No use enlaces. Utilice en su lugar el campo \"Link\" de aquí abajo."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "target_blank",
+          "label": "Target blank",
+          "default": true
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

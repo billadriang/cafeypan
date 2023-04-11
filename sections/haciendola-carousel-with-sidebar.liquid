@@ -1,0 +1,407 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'content-carousel.css' | asset_url | stylesheet_tag }}
+
+<link rel="stylesheet" href="{{ 'quick-add.css' | asset_url }}" media="print" onload="this.media='all'">
+<script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+
+<style>
+
+  .collection_slider {
+    padding: {{ section.settings.section_height | append: 'px' }} 0px;
+    overflow: hidden;
+  }
+
+  .collection_slider--textbox {
+    background-color: {{ section.settings.background_color }};
+    height: 100%;
+    display: grid;
+    place-content: center;
+    padding: 8rem;
+  }
+
+  .collection_slider--textbox h3 {
+    color: {{ section.settings.title_font_color }};
+    font-size: {{ section.settings.title_font_size | append: 'em' }};
+    margin: 0;
+  }
+
+  .collection_slider--textbox .collection_slider--description p {
+    color: {{ section.settings.description_font_color }};
+    font-size: {{ section.settings.description_font_size | append: 'em' }};
+    margin: 0;
+  }
+  
+  .collection_slider--container {
+    display: grid;
+    grid-template-columns: {{ section.settings.image_width }}% 1fr;
+    width: 100%;
+    overflow: hidden;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  @media screen and (max-width: 500px) {
+    .collection_slider--container {
+      grid-template-columns: 1fr;
+      padding-left: 0;
+    }
+
+    .collection_slider--textbox{
+      padding: 4rem;
+    }
+  }
+  .collection_slider--carousel {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+
+  .collection_slider--img img {
+    width: 100%;
+  }
+  .collection__slider--button {
+    color: {{ section.settings.button_font_color }};
+    font-size: {{ section.settings.button_font_size | append: 'em' }};
+    cursor: pointer;
+    width: fit-content;
+    text-transform: uppercase;
+    margin-top: {{ section.settings.button_margin_top | append: 'rem' }};
+  }
+  .collection__slider--button:hover {
+    color: {{ section.settings.button_hover_font_color }};
+  }
+  .embla__button {
+    --color-foreground: {{ section.settings.arrow_color.red }}, {{ section.settings.arrow_color.green }}, {{ section.settings.arrow_color.blue }};
+  }
+
+  .collection_slider .quick-add__submit {
+    background-color: {{ section.settings.quick_add_color }};
+    color: {{ section.settings.quick_add_text}};
+    border: 1px solid {{ section.settings.quick_add_border_color}};
+  }
+  
+
+  .collection_slider .quick-add__submit:hover {
+    background-color: {{ section.settings.quick_add_hover_color }};
+    color: {{ section.settings.quick_add_hover_text }};
+  }
+  
+  .collection_slider  .button:not([disabled]):hover:after {
+    --border-offset: unset;
+     box-shadow: unset;
+  }
+
+  .collection_slider .button--secondary:after {
+    --border-opacity: unset;
+    content: unset;
+  }
+
+  destacar {
+    color: {{ section.settings.color }};
+  }
+  .collection_slider--carousel svg {
+    height: 14px;
+  }
+  .collection_slider .embla__slide {
+    position: relative;
+    min-width: 50%;
+    padding-left: 10px;
+  }
+  @media (min-width: 768px) {
+    .collection_slider .embla__slide {
+      padding-left: 10px;
+      padding-right: 10px;
+      min-width: var(--embla-slide-width, 50%);
+    }
+  }
+  @media (min-width: 960px) {
+    .collection_slider .embla__slide {
+      min-width: var(--embla-slide-width, 33.33%);
+    }
+  }
+  @media (min-width: 1200px) {
+    .collection_slider .embla__slide {
+      min-width: var(--embla-slide-width, 25%);
+    }
+  }
+  @media (min-width: 1200px) {
+    .collection_slider .embla__slide {
+      min-width: var(--embla-slide-width, 20%);
+    }
+  }
+</style>
+{%liquid
+  assign title = section.settings.title
+  assign sub_title = section.settings.sub_title
+  assign description = section.settings.sidebar_description
+  assign collection = section.settings.collection
+  assign products = collection.products
+%}
+
+<section class="collection_slider">
+  <div class="collection_slider--container">
+    <div class="collection_slider--textbox">
+      {% if title != blank %}
+      <h3>{{ title }}</h3>
+      {% endif %}
+      {% if sub_title != blank %}
+      <h4>{{ sub_title }}</h4>
+      {% endif %}
+      {% if description != blank %}
+      <div class="collection_slider--description">{{ description }}</div>
+      {% endif %}
+      {% if section.settings.button_url or section.settings.button_label %}
+      <a href="{{ section.settings.button_url }}" class="collection__slider--button">{{ section.settings.button_label }}</a>
+      {% endif %}
+      {% if section.settings.sidebar_image != blank %}
+      <div class="collection_slider--img">
+        <img src="{{ section.settings.sidebar_image | image_url }}" alt="" loading="lazy" width="" height="" />
+      </div>
+      {% endif %}
+    </div>
+    <div class="collection_slider--carousel content-carousel">
+      <content-carousel id="Slider-{{ section.id }}" class="embla"
+        data-loop="false" 
+        data-start-index="1" 
+        data-speed="600" 
+        data-draggable="true"
+        >
+        <!-- Slider main container -->
+        <div class="embla__viewport overflow-hidden" style="max-width: 100%; overflow: hidden;">
+          <!-- Additional required wrapper -->
+          <div class="embla__container">
+            <!-- Slides -->
+            {% for product in products %}
+            {%- if forloop.index > 2 -%}
+              {%- assign lazy_load = true -%}
+            {%- endif -%}
+
+              <div class="embla__slide">
+                <div class="embla__slide__inner">
+                {% render 'custom-card-product',
+                  card_product: product,
+                  section_id: section.id,
+                  lazy_load: lazy_load,
+                  media_aspect_ratio: 'adapt',
+                  show_secondary_image: true,
+                  show_quick_add: section.settings.show_quick_to_add,
+                  show_quantity_selector: section.settings.show_quantity_selector,
+                %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+        </div>
+        <button class="embla__button embla__button--prev">
+          <svg width="24" height="39" class="icon icon-caret" viewBox="0 0 24 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M19.7947 -3.67638e-07L24 4.14267L8.41057 19.5L24 34.8573L19.7947 39L1.70474e-06 19.5L19.7947 -3.67638e-07Z"
+              fill="currentColor" />
+          </svg>
+        </button>
+        <button class="embla__button embla__button--next">
+          <svg class="icon icon-caret" width="24" height="39" viewBox="0 0 24 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M4.20528 39L0 34.8573L15.5894 19.5L0 4.14267L4.20528 0L24 19.5L4.20528 39Z" fill="currentColor" />
+          </svg>
+        </button>
+      </content-carousel>
+    </div>
+  </div>
+</section>
+
+<script type="module" defer>
+  import "{{ 'embla-carousel.umd.js' | asset_url }}"
+  import "{{ 'content-carousel.js' | asset_url }}" 
+</script>
+
+{% schema %}
+{
+  "name": "H - Carousel with content",
+  "class": "slider-sidebar",
+  "settings": [
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Section padding",
+      "unit": "px",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 50
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#a4d4d7"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow colors",
+      "default": "#007AFF"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Titulo"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Title font size",
+      "unit": "em",
+      "min": 1.6,
+      "max": 6.0,
+      "step": 0.2,
+      "default": 2.0
+    },
+    {
+      "type": "color",
+      "id": "title_font_color",
+      "label": "Title font color",
+      "default": "#454e55"
+    },
+    {
+      "type": "richtext",
+      "id": "sidebar_description",
+      "label": "Description"
+    },
+    {
+      "type": "range",
+      "id": "description_font_size",
+      "label": "Description font size",
+      "unit": "em",
+      "min": 0.8,
+      "max": 3.0,
+      "step": 0.1,
+      "default": 1.0
+    },
+    {
+      "type": "color",
+      "id": "description_font_color",
+      "label": "Description font color",
+      "default": "#444e55"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Ver más"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button url"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button font size",
+      "unit": "em",
+      "min": 0.8,
+      "max": 3.0,
+      "step": 0.1,
+      "default": 1.0
+    },
+    {
+      "type": "color",
+      "id": "button_font_color",
+      "label": "Button font color",
+      "default": "#454e55"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_font_color",
+      "label": "Button hover font color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "button_margin_top",
+      "label": "Button margin top",
+      "unit": "rem",
+      "min": 1.0,
+      "max": 6.0,
+      "step": 0.2,
+      "default": 1.0
+    },
+    {
+      "type": "image_picker",
+      "id": "sidebar_image",
+      "label": "Choose a sidebar image"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "label": "Sidebar image width",
+      "unit": "%",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "default": 50
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quick_to_add",
+      "label": "Show quick to add button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quantity_selector",
+      "label": "Show quantity selector",
+      "default": true
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "color",
+      "id": "quick_add_border_color",
+      "label": "Quick add border color",
+      "default": "#FFF"
+    },
+    {
+      "type": "color",
+      "id": "quick_add_color",
+      "label": "Quick add button color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "quick_add_text",
+      "label": "Quick add text color",
+      "default": "#FFF"
+    },
+    {
+      "type": "color",
+      "id": "quick_add_hover_color",
+      "label": "Quick add hover button color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "quick_add_hover_text",
+      "label": "Quick add hover text color",
+      "default": "#FFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "H - Carousel with content"
+    }
+  ]
+}
+{% endschema %}

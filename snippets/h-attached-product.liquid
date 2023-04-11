@@ -1,0 +1,15 @@
+<style>
+  h-attached-product {
+    display: flex;
+    align-items: center;
+  }
+</style>
+{% liquid
+  assign product = block.settings.product
+  assign variant = product.variants | first
+%}
+<h-attached-product data-product-id="{{ variant.id }}" >
+  <input type="checkbox" id="attached-product-{{ block.id }}">
+  <label for="attached-product-{{ block.id }}">{{ block.settings.titulo }}</label>
+</h-attached-product>
+<script src="{{ 'h-attached-product.js' | asset_url }}" type="module" defer></script>

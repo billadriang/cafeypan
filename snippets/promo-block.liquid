@@ -1,0 +1,117 @@
+
+
+  {%- liquid
+    assign ratio = 1
+    if block.settings.image and media_aspect_ratio == 'portrait'
+      assign ratio = 0.8
+    elsif block.settings.image and media_aspect_ratio == 'adapt'
+      assign ratio = block.settings.image.aspect_ratio
+    endif
+    if ratio == 0 or ratio == nil
+      assign ratio = 1
+    endif
+  -%}
+<div class="card-wrapper promo-{{ block.id }} promo-block underline-links-hover {{ block.settings.theme_color }}">
+  {% if block.settings.img_as_bg %}
+  <div class="promo-block__bg"></div>
+  {% endif %}
+  <div class="card
+    card--{{ settings.card_style }}
+    {% if block.settings.image %} card--media{% else %} card--text{% endif %}
+    {% if settings.card_style == 'card' %}{% endif %}
+    {% if extend_height %} card--extend-height{% endif %}
+    {% if block.settings.image == nil and settings.card_style == 'card' %} ratio{% endif %}"
+    style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;">
+      <div class="card__inner {% if card_product.featured_media or settings.card_style == 'standard' %} ratio{% endif %}" style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;">
+      {%- if block.settings.image -%}
+        <div class="card__media">
+          <div class="media media--transparent media--hover-effect">
+            <img
+              src="{{ block.settings.image | img_url: 'master' }}"
+              alt="{{ block.settings.image.alt | escape }}"
+              class="motion-reduce"
+              {% unless lazy_load == false %}loading="lazy"{% endunless %}
+              width="{{ block.settings.image.width }}"
+              height="{{ block.settings.image.height }}"
+            >
+            {%- if block.settings.secondary_image != nil and show_secondary_image -%}
+              <img
+                srcset="{%- if block.settings.secondary_image.width >= 165 -%}{{ block.settings.secondary_image | image_url: width: '165x' }} 165w,{%- endif -%}
+                  {%- if block.settings.secondary_image.width >= 360 -%}{{ block.settings.secondary_image | image_url: width: '360x' }} 360w,{%- endif -%}
+                  {%- if block.settings.secondary_image.width >= 533 -%}{{ block.settings.secondary_image | image_url: width: '533x' }} 533w,{%- endif -%}
+                  {%- if block.settings.secondary_image.width >= 720 -%}{{ block.settings.secondary_image | image_url: width: '720x' }} 720w,{%- endif -%}
+                  {%- if block.settings.secondary_image.width >= 940 -%}{{ block.settings.secondary_image | image_url: width: '940x' }} 940w,{%- endif -%}
+                  {%- if block.settings.secondary_image.width >= 1066 -%}{{ block.settings.secondary_image | image_url: width: '1066x' }} 1066w,{%- endif -%}
+                  {{ block.settings.secondary_image | image_url: width: 'master' }} {{ block.settings.secondary_image.width }}w"
+                src="{{ block.settings.secondary_image | image_url: width: '533x' }}"
+                sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 130 | divided_by: 4 }}px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+                alt="{{ block.settings.secondary_image.alt | escape }}"
+                class="motion-reduce"
+                loading="lazy"
+                width="{{ block.settings.secondary_image.width }}"
+                height="{{ block.settings.secondary_image.height }}"
+              >
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+      <div class="card__content">
+        <div class="card__information">
+          <h3 class="card__heading">
+            <a href="{{ block.settings.link_url }}" class="full-unstyled-link">
+              {{ block.settings.title | escape }}
+            </a>
+          </h3>
+        </div>
+      </div>
+    </div>
+    <div class="card__content">
+      <div class="card__information">
+        <h3 class="card__heading{% if settings.card_style == 'standard' %} h5{% endif %}">
+          <a href="{{ block.settings.link_url }}" role="link" aria-disabled="true" class="full-unstyled-link">
+            {{ block.settings.title }}
+          </a>
+        </h3>
+          <div class="card-information">
+            <span class="caption-large light">
+              <p>{{ block.settings.content }}</p>
+            </span>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+    .promo-block {
+        /* --pb-outer-border: #fafafa;
+        border: 1px solid #faa; */
+        position: relative;
+        padding: --pb-padding;
+        --pb-bg-color: {{ block.settings.background_color }};
+
+    }
+    .promo-{{ block.id }} {
+        background-color: var(--pb-bg-color);
+        padding: var(--pb-padding, 0);
+    }
+    {% if block.settings.img_as_bg %}
+    .promo-block__bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        display: block !important;
+        background-image: url('{{ block.settings.image | image_url: width: '500' }}');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+    
+    }
+    {% endif %}
+    .promo-block__image img {
+        width: 100%;
+        height: auto;
+    }
+</style>

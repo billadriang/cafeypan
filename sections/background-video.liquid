@@ -1,0 +1,272 @@
+{{ 'section-background-video.css' | asset_url | stylesheet_tag }}
+
+
+<style>
+  .videoWrapper-wrapper p{
+    color: {{ section.settings.subheading_color}};
+    font-size: {{ section.settings.subheading_size}}px;
+  }
+
+
+  .videoWrapper-wrapper h1{
+    color: {{ section.settings.heading_color}};
+    font-size: {{ section.settings.heading_size}}px;
+  }
+
+  @media screen and (max-width: 500px) {
+    .videoWrapper-wrapper p{
+      font-size: {{ section.settings.mobile_subheading_size}}px;
+    }
+
+  .videoWrapper-wrapper h1{
+      font-size: {{ section.settings.mobile_heading_size}}px;
+    }
+  }
+
+</style>
+
+<div id="custom-video">
+  <div class="videoWrapper">
+    {% if section.settings.shopify_video != blank %}
+      <video id="my-video" class="video-js" autoplay loop muted playsinline >
+        <source src="{{ section.settings.shopify_video }}" type="video/mp4">
+      </video>
+      <div class="videoWrapper-container {{ section.settings.desktop_content_position }}">
+        <div class="videoWrapper-wrapper" style="text-align: {{ section.settings.text_alignment }};">
+          {% if section.settings.sub_heading != blank %}
+            <p>{{ section.settings.sub_heading }}</p>
+          {% endif %}
+          {% if section.settings.heading %}
+            <h1>{{ section.settings.heading }}</h1>
+          {% endif %}
+          <div class="banner__buttons">
+            {%- if section.settings.button_label_1 != blank -%}
+              <a{% if section.settings.button_link_1 == blank %} role="link" aria-disabled="true"{% else %} href="{{ section.settings.button_link_1 }}"{% endif %} {% if section.settings.target_blank %} target="_blank" {% endif %} class="button {{ section.settings.button_style }}">{{ section.settings.button_label_1 | escape }}</a>
+            {%- endif -%}
+            {%- if section.settings.button_label_2 != blank -%}
+              <a{% if section.settings.button_link_2 == blank %} role="link" aria-disabled="true"{% else %} href="{{ section.settings.button_link_2 }}"{% endif %} {% if section.settings.target_blank %} target="_blank" {% endif %} class="button {{ section.settings.button_style_2 }}">{{ section.settings.button_label_2 | escape }}</a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    </div>
+</div>
+
+{% schema %}
+{
+  "name": "Background video",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Video settings"
+    },
+    {
+      "type": "url",
+      "id": "shopify_video",
+      "label": "Shopify Video"
+    },
+    {
+      "type": "header",
+      "content": "Text settings"
+    },
+    {
+      "type": "text",
+      "id": "sub_heading",
+      "label": "Subheading"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Desktop heading text size",
+      "unit": "px",
+      "min": 14,
+      "max": 60,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "mobile_subheading_size",
+      "label": "Mobile heading text size",
+      "unit": "px",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#fff"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Desktop heading text size",
+      "unit": "px",
+      "min": 14,
+      "max": 60,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "mobile_heading_size",
+      "label": "Mobile heading text size",
+      "unit": "px",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#fff"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Button settings"
+    },
+    {
+      "type": "text",
+      "id": "button_label_1",
+      "label": "Button 1 label"
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "options": [
+        {
+          "value": "button--primary",
+          "label": "Primary"
+        },
+        {
+          "value": "button--secondary",
+          "label": "Secondary"
+        },
+        {
+          "value": "link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "label": "Button 2 label"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Button 2 link"
+    },
+    {
+      "type": "select",
+      "id": "button_style_2",
+      "label": "Button style",
+      "options": [
+        {
+          "value": "button--primary",
+          "label": "Primary"
+        },
+        {
+          "value": "button--secondary",
+          "label": "Secondary"
+        },
+        {
+          "value": "link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Content position"
+    },
+    {
+      "type": "select",
+      "id": "desktop_content_position",
+      "options": [
+        {
+          "value": "top-left",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__1.label"
+        },
+        {
+          "value": "top-center",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__2.label"
+        },
+        {
+          "value": "top-right",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__3.label"
+        },
+        {
+          "value": "middle-left",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__4.label"
+        },
+        {
+          "value": "middle-center",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__5.label"
+        },
+        {
+          "value": "middle-right",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__6.label"
+        },
+        {
+          "value": "bottom-left",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__7.label"
+        },
+        {
+          "value": "bottom-center",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__8.label"
+        },
+        {
+          "value": "bottom-right",
+          "label": "t:sections.image-banner.settings.desktop_content_position.options__9.label"
+        }
+      ],
+      "default": "middle-center",
+      "label": "t:sections.image-banner.settings.desktop_content_position.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Background video"
+    }
+  ]
+}
+{% endschema %}

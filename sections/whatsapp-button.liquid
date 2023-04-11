@@ -1,0 +1,149 @@
+{% assign link =  "https://wa.me/" | append: section.settings.number | append: "?text=" | append: section.settings.message %}
+<style>
+  #shopify-section-whatsapp-button {
+    position: relative;
+    z-index: 9;
+  }
+  .h-whatsapp-button {
+    position: relative;
+    border-radius: 50%;
+    position: fixed;
+    bottom: {{ section.settings.bottom }}px;
+    right: {{ section.settings.right }}px;
+    z-index: 999;
+  }
+  .h-whatsapp-button svg {
+    display: block;
+    position: relative;
+    z-index: 1;
+  }
+  .h-whatsapp-button::before {
+    content: "";
+    width: 90%;
+    height: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: #fff;
+    border-radius: 50%;
+    z-index: 0;
+  }
+  
+  .h-whatsapp-button__tooltip {
+    display: block;
+    width: fit-content;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    padding: .5em 1em;
+    background: #fff;
+    color: #000;
+    font-size: 14px;
+    transform: translate(calc(-100% - 10px),-50%);
+    white-space: nowrap;
+    border-radius: .5em;
+    opacity: 0;
+    transition: all 1s;
+    box-shadow: 3px 3px 10px -5px rgba(0,0,0,.2);
+    border: 1px solid rgba(0,0,0,.02);
+  }
+  .h-whatsapp-button__tooltip.active {
+    opacity: 1;
+  }
+</style>
+{%- if section.settings.number -%}
+  <h-whatsapp>
+    <a href="{{ link }}" target="_blank" class="h-whatsapp-button"
+    data-message="{{ section.settings.message }}"
+    data-welcome="{{ section.settings.welcome_message }}"
+    data-enable-url="{{ section.settings.enable_page_url }}"
+    data-number="{{ section.settings.number }}"
+    >
+      {%- if section.settings.welcome_message != blank -%}
+        <div class="h-whatsapp-button__tooltip">{{ section.settings.welcome_message }}</div>
+      {%- endif -%}
+      <svg width="55" height="55" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_1000_700)">
+        <path d="M12.031 6.172C8.85 6.172 6.264 8.758 6.263 11.938C6.262 13.236 6.643 14.208 7.282 15.225L6.7 17.353L8.882 16.78C9.86 17.36 10.793 17.708 12.027 17.709C15.205 17.709 17.794 15.122 17.795 11.943C17.796 8.756 15.22 6.173 12.031 6.172ZM15.423 14.416C15.279 14.821 14.586 15.19 14.253 15.24C13.954 15.285 13.576 15.303 13.161 15.171C12.909 15.091 12.586 14.984 12.173 14.806C10.434 14.055 9.299 12.304 9.212 12.189C9.125 12.073 8.504 11.249 8.504 10.396C8.504 9.543 8.952 9.123 9.111 8.95C9.27 8.777 9.457 8.733 9.573 8.733L9.905 8.739C10.011 8.744 10.154 8.699 10.295 9.037C10.439 9.384 10.786 10.237 10.829 10.324C10.872 10.411 10.901 10.512 10.843 10.628C10.785 10.744 10.756 10.816 10.67 10.917L10.41 11.221C10.323 11.307 10.233 11.401 10.334 11.575C10.435 11.749 10.783 12.316 11.298 12.776C11.96 13.367 12.519 13.55 12.692 13.636C12.865 13.722 12.966 13.708 13.068 13.593C13.169 13.477 13.501 13.087 13.617 12.913C13.733 12.74 13.848 12.768 14.007 12.826C14.166 12.884 15.018 13.303 15.191 13.39C15.364 13.477 15.48 13.52 15.523 13.592C15.568 13.664 15.568 14.011 15.423 14.416ZM12 0C5.373 0 0 5.373 0 12C0 18.627 5.373 24 12 24C18.627 24 24 18.627 24 12C24 5.373 18.627 0 12 0ZM12.029 18.88C10.868 18.88 9.724 18.588 8.711 18.036L5.034 19L6.018 15.405C5.411 14.353 5.091 13.159 5.092 11.937C5.093 8.112 8.205 5 12.029 5C13.885 5.001 15.627 5.723 16.936 7.034C18.246 8.345 18.967 10.088 18.966 11.942C18.965 15.767 15.853 18.88 12.029 18.88Z" fill="#22cd5b"/>
+        </g>
+        <defs>
+        <clipPath id="clip0_1000_700">
+        <rect width="24" height="24" fill="white"/>
+        </clipPath>
+        </defs>
+      </svg>    
+    </a>
+  </h-whatsapp>
+{%- endif -%}
+
+<script type="module">
+  class HWhatsapp extends HTMLElement {
+    constructor() {
+      super()
+      const anchor = this.querySelector('a')
+      const currentLink = anchor.dataset.enableUrl === 'true'
+      const number = anchor.dataset.number.replaceAll('+','').replaceAll(' ','')
+      const message = anchor.dataset.message
+      const send =  encodeURIComponent(`${currentLink ? location.href+'\n\n' : '' }${message}`)
+      const tooltip = this.querySelector('.h-whatsapp-button__tooltip')
+
+      anchor.href = `https://wa.me/${number}?text=${send}`
+
+      if(tooltip) setTimeout(() => {
+        tooltip.classList.add('active')
+        setTimeout(() => {
+          tooltip.classList.remove('active')
+        }, 10 * 1000)
+      }, (Shopify.designMode ? 1 : 10) * 1000)
+    }
+  }
+  customElements.define('h-whatsapp', HWhatsapp)
+</script>
+
+{%- schema -%}
+{
+  "name": "Whatsapp Button",
+  "settings": [
+    {
+      "type": "range",
+      "id": "right",
+      "label": "Margen derecho",
+      "min": 10,
+      "max": 100,
+      "default": 10,
+      "step":1
+    },
+    {
+      "type": "range",
+      "id": "bottom",
+      "label": "Margen inferior",
+      "min": 10,
+      "max": 100,
+      "default": 10,
+      "step":1
+    },
+    {
+      "type": "number",
+      "id": "number",
+      "label": "Número de teléfono",
+      "info": "Importante: Sin el \"+\" y sin espacios."
+    },
+    {
+      "type": "textarea",
+      "id": "message",
+      "label": "Mensaje por defecto"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_page_url",
+      "label": "Enviar el la url actual"
+    },
+    {
+      "type": "text",
+      "id": "welcome_message",
+      "label": "Mensaje de bienvenida"
+    }
+  ]
+}
+{%- endschema -%}

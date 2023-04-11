@@ -1,0 +1,64 @@
+{%- assign includedTags = etiquetas | split: ',' -%}
+<div class="sellos">
+  <div class="sellos__icons">
+  {% for tag in product.tags %}
+    {% assign cleantag = tag | handleize %}
+    {%- if includedTags contains cleantag -%}
+      {%- assign image = cleantag | append: '.' | append: type -%}
+      {% if descripcion %}<span class="tag_label">{{ tag | split: '-' | join: ' ' }}</span>{% endif %} <img loading="lazy" src="{{ image | asset_url }}">
+    {% endif %}
+  {% endfor %}
+  </div>
+</div>
+{% style %}
+  .sellos {
+    margin-bottom: 20px;
+  }
+  .sellos__icons .tag_label {
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  .sellos .sellos__icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    width: 100%;
+  }
+  @media only screen and (min-width: 768px) {
+    .sellos .sellos__icons {
+      justify-content: space-around;
+      gap: 6px;
+    }
+  }
+  .sellos .sellos__icons span a {
+    color: #000;
+    font-weight: 400;
+    font-size:14px;
+  }
+  .sellos div.sellos__icons:last-child {
+    margin-top: 12px;
+  }
+  .sellos .sellos__icons img {
+    width: auto;
+    height: 85px;
+  }
+  @media only screen and (min-width: 768px){
+    .sellos .sellos__icons {
+      display: flex;
+      justify-content: flex-start;
+      gap: 16px;
+      width: 100%;
+    }
+
+  }
+  .sellos h4 {
+    text-transform: uppercase;
+    color: #424363;
+    margin-left: 10px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+{% endstyle %}

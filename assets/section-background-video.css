@@ -1,0 +1,76 @@
+.video-js {
+  width: 100%;
+}
+
+.videoWrapper {
+  position: relative;
+}
+
+.videoWrapper-container p ,
+.videoWrapper-container h1 {
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.videoWrapper-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.videoWrapper-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 3rem;
+}
+
+.videoWrapper-container.top-left {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.videoWrapper-container.top-center {
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.videoWrapper-container.top-right {
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.videoWrapper-container.middle-left {
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.videoWrapper-container.middle-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.videoWrapper-container.middle-right {
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.videoWrapper-container.bottom-left {
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.videoWrapper-container.bottom-center {
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.videoWrapper-container.bottom-right {
+  justify-content: flex-end;
+  align-items: flex-end;
+}

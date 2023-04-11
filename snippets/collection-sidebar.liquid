@@ -1,0 +1,162 @@
+<style>
+  {% if collapsable_filters %}
+    side-bar .accordion-body-tag {
+      padding: 0 10px;
+      overflow: hidden;
+      transition: max-height 0.2s ease-out;
+      max-height: 0;
+    }
+
+    side-bar .accordion-header-tag {
+      display: flex;
+      justify-content: space-between;
+      cursor: pointer;
+      position: relative;
+      font-weight: normal;
+    }
+
+    side-bar .accordion-header-tag svg {
+      width: 10px;
+      height: 10px;
+      color: rgba(var(--color-foreground),.5);
+    }
+
+    side-bar .accordion-header-tag.active svg {
+      transform: rotate(180deg);
+    }
+  {% endif %}
+  
+
+  input.tag-filter[type="checkbox"] {
+    display: none;
+  }
+
+  input.tag-filter[type="checkbox"]+label {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    margin-bottom: 1em;
+    gap: .2em;
+  }
+
+  input.tag-filter[type="checkbox"]+label:before {
+    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z"/></svg>');
+    display: inline-block;
+    line-height: 1;
+    width: 1em;
+    height: 1em;
+  }
+
+  input.tag-filter[type="checkbox"]:checked+label {
+    font-weight: bold;
+  }
+
+  input.tag-filter[type="checkbox"]:checked+label:before {
+    content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path d="M0 0v24h24v-24h-24zm11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597z"/></svg>');
+  }
+
+  @media screen and (min-width: 748px) {
+    .collection {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      padding-bottom: 40px;
+      gap: 25px;
+    }
+
+    .pagination-wrapper.pagination-wrapper {
+      width: 100%;
+      grid-column: span 2;
+    }
+  }
+
+  menu-drawer side-bar {
+    padding: 10px
+  }
+
+  #FacetsWrapperDesktop,
+  .side-bar__block  {
+    border-bottom: 1px solid rgba(var(--color-foreground),.1);
+  }
+
+  details[data-filter="Más filtros"] {
+    display: none;
+  }
+</style>
+
+
+
+{% comment %}
+<script src="{{ 'sidebar.js' | asset_url }}" defer="defer"></script>{% endcomment %}
+{% liquid
+assign parts = request.path | split: '/'
+assign tags = false
+if parts[3] != blank
+assign tags = true
+assign separated = parts[3] | split: '+'
+endif
+%}
+<script type="module" src="{{ 'sidebar.js' | asset_url }}"></script>
+
+<side-bar>
+  <div class="side-bar__wrapper">
+    <form id="side-bar__form">
+      {% for block in blocks %}
+      <div class="side-bar__block {% if block.settings.is_unique %}side-bar__unique{% endif %}" {{ block.shopify_attributes }}>
+        {% case block.type %}
+        {% when 'header' %}
+        <h4>{{ block.settings.header_text }}</h4>
+        {% when 'tag_filter' %}
+        <h5 class="accordion-header-tag">
+          {{ block.settings.filter_name }}
+          <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-caret" viewBox="0 0 10 6">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
+          </path></svg>
+        </h5>
+        <div class="accordion-body-tag">
+          {% assign initial_filter_tags = block.settings.filter_tags | split: ',' %}
+          {% for tagname in initial_filter_tags %}
+          {% assign tag = tagname | strip %}
+          {% assign tagHandler = tag | handleize %}
+          <div>
+            <input id="{{ tagHandler }}" class="tag-filter" name="{{ tagHandler }}" type="checkbox"
+              value="{{ tag }}" {% if tags and separated contains tagHandler %}checked{% endif %}>
+            <label for="{{ tagHandler }}">{{ tag }}</label>
+          </div>
+          {% endfor %}
+        </div>
+
+        {% when 'all_tags_filter' %}
+          {% for tagname in collection.all_tags %}
+            {% assign tag = tagname | strip %}
+            {% assign tagHandler = tag | handleize %}
+            <div>
+              <input id="{{- tag -}}" class="tag-filter" name="{{ tagHandler }}" type="checkbox"
+                value="{{ tag }}_{{ forloop.index }}" {% if tags and separated contains tag %}checked{% endif %}>
+              <label for="{{ tag }}">{{ tag }}</label>
+            </div>
+          {% endfor %}
+        {% endcase %}
+      </div>
+      {% endfor %}
+    </form>
+  </div>
+</side-bar>
+
+{% if collapsable_filters %}
+  <script>
+    const collapsibles = document.querySelectorAll('.accordion-header-tag')
+    collapsibles.forEach((collapsible, idx) => {
+      const content = collapsible.nextElementSibling;
+      collapsible.addEventListener('click', () => {
+        collapsible.classList.toggle('active')
+        if (content.style.maxHeight) {
+          content.style.maxHeight = null
+        }
+        else {
+          content.style.maxHeight = content.scrollHeight + "px"
+        }
+
+      })
+    })
+  </script>
+{% endif %}

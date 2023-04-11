@@ -1,0 +1,85 @@
+.mega-menu__content {
+  position: absolute;
+  opacity: 0;
+  transition: all 0.5s ease;
+  display: flex;
+  z-index: 14;
+  padding-top: 30px;
+  padding-bottom: 20px;
+}
+@keyframes MmenuFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.mega-menu__block-title {
+  width: 100%;
+  border-bottom: 1px solid;
+  display: block;
+}
+
+.mega-menu__content:not(.active) {
+  pointer-events: none;
+}
+
+.mega-menu__content.active {
+  opacity: 1;
+  animation: MmenuFadeIn .5s;
+}
+
+.mega-menu__block {
+  padding: 0 10px;
+}
+
+.mega-menu__block > ul {
+  list-style: none;
+  padding: 0;
+}
+
+.mega-menu__block a {
+  padding: 5px 0;
+  text-decoration: none;
+  color: black;
+  transition: all 0.2s ease-in;
+}
+
+.mega-menu__block a:hover {
+  color: gray;
+}
+
+.mega-menu__block a {
+  padding: 5px 0;
+  text-decoration: none;
+  color: black;
+}
+
+.mega-menu__block a span {
+  text-decoration: none;
+}
+
+.mega-menu__block-description,
+.mega-menu__block-description > * {
+  color: rgb(var(--color-foreground));
+}
+
+@media screen and (max-width: 765px) {
+
+  mega-menu {
+    display: none;
+  }
+
+}
+
+.nav-link-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.mega-menu__block-image img {
+  max-height: 300px;
+  width: 100%;
+}

@@ -1,0 +1,95 @@
+{% assign amount = cart.total_price | money_without_currency | replace: ',', '' %}
+<style>
+  progress-bar {
+    padding: 20px;
+    background: {{ block.settings.widget_background }};
+    color: {{ block.settings.widget_color }}
+    
+  }
+
+  .progress-bar__container {
+    width: 100%;
+    height: 10px;
+    background-color: {{ block.settings.bar_color }};
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .progress-bar__fill {
+    --progress-color: {{ block.settings.progress_color }};
+    --progress-percentage: {{ amount | times: 100 | divided_by: block.settings.pricing }}%;
+    display: block !important;
+    background-color: var(--progress-color);
+    height: 100%;
+    width: var(--progress-percentage);
+    transition: all 0.8s ease-in-out;
+    border-radius: 5px;
+  }
+
+  .progress-bar__header .progress-bar__title {
+    text-align: center;
+    font-size: 14;
+    font-weight: bold;
+  }
+
+  .progress-bar__footer p {
+    font-size: 10px;
+    color: grey;
+    text-align: center;
+  }
+</style>
+<progress-bar>
+  <header class="progress-bar__header">
+    <h4 class="progress-bar__title">{{ block.settings.message_over }}</h4>
+  </header>
+  <div class="progress-bar__container">
+    <div class="progress-bar__fill"></div>
+  </div>
+  <footer class="progress-bar__footer">
+    <p>{{ block.settings.disclaimer }}</p>
+  </footer>
+</progress-bar>
+
+<script type="module">
+  let alerted = false
+  window.CartSubscriber.on("updated", ({cart}) => {
+    console.log("Actualizamos")
+    const {total_price: total} = cart;
+    const calculed_total = total / 100;
+    const goal = {{ block.settings.pricing }};
+    const productID = "{{ block.settings.reward.variants.first.id }}";
+    
+    console.log("Agregando", productID)
+    if(!alerted && calculed_total >= goal) {
+      // TODO: Agregar el producto (recompensa)
+      alerted = true
+      const config = fetchConfig('javascript');
+      config.headers['X-Requested-With'] = 'XMLHttpRequest';
+      delete config.headers['Content-Type'];
+
+      const formData = new FormData();
+      const cartDrawer = document.querySelector("cart-drawer")
+      console.log(cartDrawer)
+      formData.append('sections', cartDrawer.getSectionsToRender().map((section) => section.id));
+      formData.append('sections_url', window.location.pathname);
+      formData.append("id", Number(productID))
+      formData.append("quantity",1)
+      formData.append("form_type","product")
+      formData.append("utf8","✓")
+
+      config.body = formData;
+
+      fetch(`${routes.cart_add_url}`, config)
+        .then((response) => response.json())
+        .then((response) => cartDrawer.renderContents(response))
+        .catch(err => {
+          console.error("Falló", err)
+        })
+    }
+    else if(alerted && calculed_total < goal) {
+      // TODO: Eliminar la recompensa
+      alerted = false
+    }
+  })
+</script>

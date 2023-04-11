@@ -1,0 +1,96 @@
+@media (min-width: 750px) {
+  /* Ajuste del layout */
+  #MainContent {
+    --container-bg: #fff;
+    --padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    justify-content: center;
+    column-gap: 20px;
+    max-width: var(--page-width);
+    padding: 5rem;
+    margin: auto;
+  }
+  #MainContent > * {
+    grid-column: span 2;
+    width: 100%;
+  }
+  #MainContent > :first-child,
+  #MainContent > :nth-child(2) {
+    grid-column: unset;
+    margin: 0;
+    background: var(--container-bg);
+    padding:  var(--padding);
+  }
+  #MainContent > :nth-child(2) {
+    max-width: 300px;
+    height: fit-content;
+  }
+
+  #MainContent.cart-empty > :first-child {
+    grid-column: span 2;
+  }
+  #MainContent.cart-empty > :nth-child(2) {
+    display: none;
+  }
+
+  #MainContent .title,
+  #MainContent .title-wrapper-with-link {
+    margin-top: 0;
+  }
+
+  /* Correcciones a los items */
+  #MainContent .page-width,
+  #MainContent .page-width-desktop {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  #MainContent .cart__footer {
+    padding: 0;
+  }
+
+}
+
+#MainContent select {
+  display: block;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  padding: 10px !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background-image: var(--caret-bg);
+  background-size: 22px 16px;
+  background-position: center right;
+  background-repeat: no-repeat;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Customización específica de la página cart */
+#MainContent .cart__footer h4 {
+  font-size: 18px !important;
+  text-align: center !important;
+}
+#MainContent label,
+#MainContent .boleta-factura__copy {
+  font-size: 16px !important;
+}
+#MainContent .boleta-factura__error {
+  font-size: 14px !important;
+}
+
+#MainContent input,
+#MainContent select {
+  font-family: (--font-body-family) !important;
+}
+
+@media screen and (max-width: 750px) {
+  #MainContent .cart__footer {
+    background-color: white;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+}

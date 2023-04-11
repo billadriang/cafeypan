@@ -1,0 +1,39 @@
+<style>
+.video-js {
+  width: 100%;
+  height: {{ block.settings.video_height }}px;
+  object-fit: cover;
+}
+
+.videoWrapper {
+  position: relative;
+  max-height: 350px;
+  overflow: hidden;
+}
+
+.video-wrapper--container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.video-wrapper--container > * {
+  color: {{ block.settings.text_color }};
+}
+</style>
+
+
+<div id="custom-video">
+  <div class="videoWrapper">
+    {% if block.settings.shopify_video != blank %}
+      <video id="my-video" class="video-js" autoplay loop muted playsinline>
+        <source src="{{ block.settings.shopify_video }}" type="video/mp4">
+      </video>
+    {% endif %}
+    <div class="video-wrapper--container">
+      <h2>{{ block.settings.heading }}</h2>
+      <p>{{ block.settings.subheading }}</p>
+    </div>
+  </div>
+</div>

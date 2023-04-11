@@ -1,0 +1,128 @@
+<style>
+  .h-pricing-range__wrap {
+    --size: 8px;
+
+    display: grid;
+    grid-template-rows: -webkit-max-content var(--size);
+    grid-template-rows: max-content var(--size);
+    position: relative;
+    margin: var(--size) auto;
+    width: 95%;
+    background: linear-gradient(0deg, #ccc var(--size), transparent 0);
+    border-radius: var(--size);
+  }
+
+  h-pricing-range input[type=range] {
+    grid-column: 1;
+    grid-row: 2;
+    margin: 0;
+    background: none;
+    /* get rid of white Chrome background */
+    color: #434343;
+    font: inherit;
+    /* fix too small font-size in both Chrome & Firefox */
+    pointer-events: none;
+  }
+  h-pricing-range input[type=range]:last-of-type {
+    color: #000;
+  }
+  h-pricing-range input[type=range]::-webkit-slider-runnable-track, input[type=range]::-webkit-slider-thumb, input[type=range] {
+    -webkit-appearance: none;
+  }
+  h-pricing-range input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 100%;
+    background: none;
+  }
+  h-pricing-range input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 100%;
+    background: none;
+  }
+  h-pricing-range input[type=range]::-webkit-slider-thumb {
+    border: none;
+    /* get rid of Firefox thumb border */
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    /* get rid of Firefox corner rounding */
+    background: currentcolor;
+    pointer-events: auto;
+    transform: scale(2);
+  }
+  h-pricing-range input[type=range]::-moz-range-thumb {
+    border: none;
+    /* get rid of Firefox thumb border */
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    /* get rid of Firefox corner rounding */
+    background: currentcolor;
+    pointer-events: auto;
+    transform: scale(2);
+  }
+  .h-pricing-range--feedback {
+    display: flex;
+    width: 100%;
+    margin: 1em 0;
+    justify-content: space-between;
+    font-size: .8em;
+  }
+
+  .facets__price.facets__price {
+    display: none;
+  }
+  .facets__selected.facets__selected {
+    display: none;
+  }
+  .facets__header-vertical.facets__header-vertical {
+    display: none;
+  }
+</style>
+
+{% liquid
+  assign max = filter.range_max | amount_no_decimals_with_comma_separator
+  assign max = max | replace: ',', '' | divided_by: 100
+
+  assign fromValue = filter.min_value.value |  amount_no_decimals_with_comma_separator
+  assign fromValue = fromValue | replace: ',', '' | divided_by: 100
+
+  assign toValue = filter.max_value.value |  amount_no_decimals_with_comma_separator
+  assign toValue = toValue | replace: ',', '' | divided_by: 100
+%}
+<h-pricing-range class="h-pricing-range" data-max="{{ max }}">
+  <div class="h-pricing-range--feedback">
+    <span id="h-feedback-from"></span>
+    <span id="h-feedback-to"></span>
+  </div>
+  <div class="h-pricing-range__wrap">
+    <input
+      type="range"
+      min="0"
+      max="100"
+      data-max="{{ max }}"
+      value="0"
+      {% if filter.min_value.value -%}
+        data-value="{{ fromValue }}"
+      {% else %}
+        data-value="0"
+      {%- endif %}
+      id="h-pricing-from"
+    >
+    <input
+      type="range"
+      min="0"
+      max="100"
+      data-max="{{ max }}"
+      {% if filter.max_value.value -%}
+        data-value="{{ toValue }}"
+      {% else %}
+        data-value="{{ max }}"
+      {%- endif %}
+      value="100"
+      id="h-pricing-to"
+    >
+  </div>
+</h-pricing-range>
+
+<script src="{{ 'h-pricing-range.js' | asset_url }}" type="module"></script>

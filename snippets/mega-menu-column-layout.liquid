@@ -1,0 +1,51 @@
+{% for block in blocks %}
+  <div id="mega-menu__block_{{ block.id }}" class="mega-menu__block">
+      {% case block.type %}
+          {% when 'menu' %}
+              <!-- <span class="mega-menu__block-title">{{ block.settings.menu.title }}</span> -->
+              <div class="mega-menu__block-container">
+                  {%- if block.settings.image != blank -%}
+                  <div class="mega-menu__block-image">
+                      {% if block.settings.image_link %} <a href="{{ block.settings.image_link }}"></a>{% endif %} 
+                      <img
+                      src="{{ block.settings.image | img_url: 'master' }}"
+                      alt="{{ block.settings.image.alt | escape }}"
+                      loading="lazy"
+                      >
+                  </div>
+                  {%- endif -%}
+                  
+                  {% if block.settings.description %}  <span class="mega-menu__block-description">{{ block.settings.description }}</span> {% endif %}
+                  {% render 'mega-menu-block-menu', menu: block.settings.menu %}
+              </div>
+      {% endcase %}
+  </div>
+{% endfor %}
+
+<style>
+  {% for block in blocks %}
+      #mega-menu__block_{{ block.id }} {
+        {% unless section.settings.adjust_content %}
+          flex: 1;
+        {% endunless %}
+          text-align: left;
+      }
+      #mega-menu__block_{{ block.id }} .mega-menu__block-description {
+          color: black;
+          font-weight: 600;
+          font-size: 15px;
+      }
+  {% endfor %}
+  .mega-menu__block-image {
+    position: relative;
+  }
+  .mega-menu__block-image a {
+      cursor: pointer;
+      display: block;
+      height: 100%;
+      left: 0;
+      top: 0;
+      position: absolute;
+      width: 100%;
+  }
+</style>

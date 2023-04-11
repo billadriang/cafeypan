@@ -1,0 +1,116 @@
+.embla {
+  position: relative;
+  padding: 50px;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.embla__viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+
+.embla__viewport.is-draggable {
+  cursor: move;
+  cursor: grab;
+}
+
+.embla__viewport.is-dragging {
+  cursor: grabbing;
+}
+
+.embla__container {
+  display: flex;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -khtml-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.embla__slide {
+  position: relative;
+  min-width: 100%;
+  padding-left: 10px;
+}
+@media (min-width: 768px) {
+  .embla__slide {
+    padding-left: 10px;
+    padding-right: 10px;
+    min-width: var(--embla-slide-width, 20%);
+  }
+}
+
+.embla__slide__inner {
+  position: relative;
+  height: 100%;
+}
+
+.embla__slide__inner .card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-wrapper {
+  overflow: visible;
+}
+.embla__button {
+    color: rgba(var(--color-foreground), 0.75);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+
+    top: 30%;
+    transform: translateY(-30%);
+}
+
+.embla__button:disabled {
+  cursor: default;
+  opacity: 0.3;
+}
+
+.embla__button__svg {
+  width: 100%;
+  height: 100%;
+}
+
+.embla__button--prev {
+  left: 4px;
+}
+
+.embla__button--next {
+  right: 4px;
+}
+
+.embla .embla__button,
+.embla .embla__button {
+    transition: all 0.1s ease;
+    transform: scale(1);
+}
+.embla .embla__button:hover {
+    transform: scale(1.1);
+}
+.embla__button--prev .icon {
+  height: 3.2rem;
+}
+.embla__button--next .icon {
+  height: 3.2rem;
+}
+@media only screen and (max-width: 768px) {
+ 
+  .embla__button {
+  }
+}
+
+content-carousel .button {
+  --border-offset: unset;
+}

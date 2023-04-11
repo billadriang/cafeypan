@@ -1,0 +1,135 @@
+collage-tabs {
+  display: flex;
+  flex-direction: column;
+}
+
+collage-tabs.reverse {
+  flex-direction: column-reverse;
+}
+
+@media screen and (min-width: 768px) {
+  collage-tabs {
+    flex-direction: row;
+  }
+  
+  collage-tabs.reverse {
+    flex-direction: row-reverse;
+  }
+}
+
+collage-tabs img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+collage-tabs .collage-tabs-container,
+.collage-tabs-title {
+  padding: 40px 20px;
+  margin: 0;
+}
+@media screen and (min-width: 768px) {
+  collage-tabs .collage-tabs-container,
+  .collage-tabs-title {
+    padding: 40px;
+  }
+}
+
+collage-tabs .collage-tabs-container {
+  background-color: var(--collage-bg-color);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100%;
+  text-align: var(--text-alignment);
+}
+
+@media screen and (min-width: 768px) {
+  collage-tabs .collage-tabs-container {
+    width: 50%;
+    gap: 50px;
+  }
+}
+
+collage-tabs .collage-tabs-container,
+collage-tabs .collection-collage__heading {
+  color: var(--collage-text-color);
+}
+
+
+collage-tabs .collage-tabs-container.f-start {
+  justify-content: flex-start;
+}
+
+collage-tabs .collage-tabs-container.f-center {
+  justify-content: center;
+}
+
+collage-tabs .collage-tabs-container.f-end {
+  justify-content: flex-end;
+}
+
+
+collage-tabs .collection-collage__heading{
+  opacity: 0.3;
+  font-weight: bold;
+  transition: all 0.2s ease-in;
+  cursor: pointer;
+}
+
+collage-tabs .collection-collage__heading.is-active{
+  opacity: 1;
+}
+
+collage-tabs .collection-collage__button .collection-collage__button-container {
+  display: none;
+}
+
+collage-tabs .collection-collage__button .collection-collage__button-container.is-active {
+  display: block;
+}
+
+collage-tabs .collage-tabs__image-container {
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+collage-tabs .collage-tabs__image-container.is-active {
+  opacity: 1;
+}
+
+collage-tabs .collage-tabs__image {
+  position: relative;
+  height: calc(var(--image-height) / 1.5) ;
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  collage-tabs .collage-tabs__image {
+    height: var(--image-height);
+    width: 50%;
+  }
+}
+
+collage-tabs .collection-collage__content ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.75rem;
+}
+
+collage-tabs .collection-collage__content .collection-collage__heading {
+  padding: 0;
+  margin: 0;
+}
+
+collage-tabs .collection-collage__content .collection-collage__button .button {
+  margin-top: 3rem;
+}
+
