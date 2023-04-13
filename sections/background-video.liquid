@@ -7,21 +7,13 @@
     font-size: {{ section.settings.subheading_size}}px;
   }
 
-  .videoOverlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 1); /* Cambia el valor 0.7 para ajustar la opacidad del overlay */
-  z-index: 1; /* Asegúrate de que el overlay esté por encima del video */
-}
-
 
   .videoWrapper-wrapper h1{
     color: {{ section.settings.heading_color}};
     font-size: {{ section.settings.heading_size}}px;
   }
+
+
 
   @media screen and (max-width: 500px) {
     .videoWrapper-wrapper p{
@@ -37,7 +29,6 @@
 
 <div id="custom-video">
   <div class="videoWrapper">
-    <div class="videoOverlay"></div> <!-- Nuevo elemento para el overlay negro -->
     {% if section.settings.shopify_video != blank %}
       <video id="my-video" class="video-js" autoplay loop muted playsinline >
         <source src="{{ section.settings.shopify_video }}" type="video/mp4">
@@ -61,9 +52,8 @@
         </div>
       </div>
     {% endif %}
-  </div>
+    </div>
 </div>
-
 
 {% schema %}
 {
