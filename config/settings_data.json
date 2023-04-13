@@ -221,7 +221,7 @@
       "haciendola-header": {
         "type": "haciendola-header",
         "settings": {
-          "transparency": false,
+          "transparency": true,
           "background_gradient": "",
           "header_color": "#492a0d",
           "submenu_background": "#ead9b4",
@@ -232,7 +232,7 @@
           "cart_bubble_text_color": "#ead9b4",
           "searchBg": "#ffffff",
           "searchColor": "#666666",
-          "logo": "shopify:\/\/shop_images\/WhatsApp_Image_2023-04-11_at_09.26.30-removebg-preview.png",
+          "logo": "shopify:\/\/shop_images\/WhatsApp_Image_2023-04-11_at_09.26.30-removebg-preview_1.png",
           "logo_width": 210,
           "logo_position": "top-center",
           "menu": "main-menu",
