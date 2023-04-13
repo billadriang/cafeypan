@@ -13,6 +13,18 @@
     font-size: {{ section.settings.heading_size}}px;
   }
 
+  #custom-video:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+  opacity: 0.5;
+  z-index: 1;
+}
+
   @media screen and (max-width: 500px) {
     .videoWrapper-wrapper p{
       font-size: {{ section.settings.mobile_subheading_size}}px;
