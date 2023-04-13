@@ -221,7 +221,7 @@
       "haciendola-header": {
         "type": "haciendola-header",
         "settings": {
-          "transparency": true,
+          "transparency": false,
           "background_gradient": "",
           "header_color": "#492a0d",
           "submenu_background": "#ead9b4",
