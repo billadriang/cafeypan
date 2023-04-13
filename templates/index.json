@@ -2,6 +2,9 @@
   "sections": {
     "f24a4b70-24a3-4d4b-b064-15b7c12d7184": {
       "type": "background-video",
+      "custom_css": [
+
+      ],
       "settings": {
         "shopify_video": "https:\/\/cdn.shopify.com\/videos\/c\/o\/v\/197fa95c77934e8289a0941c12b922ec.mp4",
         "sub_heading": "",
@@ -12,7 +15,7 @@
         "heading_size": 28,
         "mobile_heading_size": 14,
         "heading_color": "#ead9b4",
-        "text_alignment": "right",
+        "text_alignment": "left",
         "button_label_1": "Quiero saber más",
         "button_link_1": "#",
         "button_style": "button--secondary",
