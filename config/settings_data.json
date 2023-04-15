@@ -220,6 +220,9 @@
       },
       "haciendola-header": {
         "type": "haciendola-header",
+        "custom_css": [
+          "#header {position: fixed; top: 0; width: 100%; z-index: 999;}"
+        ],
         "settings": {
           "transparency": false,
           "background_gradient": "",
@@ -233,8 +236,8 @@
           "searchBg": "#ffffff",
           "searchColor": "#666666",
           "logo": "shopify:\/\/shop_images\/WhatsApp_Image_2023-04-11_at_09.26.30-removebg-preview_1.png",
-          "logo_width": 130,
-          "logo_position": "middle-left",
+          "logo_width": 190,
+          "logo_position": "top-center",
           "menu": "main-menu",
           "menu_type_desktop": "mega",
           "show_line_separator": true,
