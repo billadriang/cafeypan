@@ -259,6 +259,9 @@
       },
       "haciendola-footer": {
         "type": "haciendola-footer",
+        "custom_css": [
+          ".copyright__content{display: none}"
+        ],
         "settings": {
           "newsletter_enable": false,
           "newsletter_heading": "Subscribe to our emails",
