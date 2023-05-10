@@ -224,14 +224,14 @@
 
         ],
         "settings": {
-          "transparency": true,
-          "background_gradient": "",
+          "transparency": false,
+          "background_gradient": "linear-gradient(359deg, rgba(0, 0, 0, 1), rgba(221, 39, 57, 1) 100%)",
           "header_color": "#000000",
           "submenu_background": "#ffffff",
           "submenu_links_color": "#000000",
-          "header_sticky_color": "",
+          "header_sticky_color": "#4c2929",
           "static_background": "#ffd487",
-          "cart_bubble_bgcolor": "#ffffff",
+          "cart_bubble_bgcolor": "#000000",
           "cart_bubble_text_color": "#ffd487",
           "searchBg": "#ffffff",
           "searchColor": "#666666",
