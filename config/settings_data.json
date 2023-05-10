@@ -391,7 +391,7 @@
         "settings": {
           "right": 26,
           "bottom": 90,
-          "number": 56932083579,
+          "number": 56958923853,
           "message": "Hola\nMe interesan su productos!",
           "enable_page_url": false,
           "welcome_message": ""
@@ -465,6 +465,21 @@
           "columns": 4,
           "general_button": "",
           "general_button_text": ""
+        }
+      },
+      "cart-drawer": {
+        "type": "cart-drawer",
+        "blocks": {
+          "cart-drawer-0": {
+            "type": "items",
+            "settings": {
+            }
+          }
+        },
+        "block_order": [
+          "cart-drawer-0"
+        ],
+        "settings": {
         }
       }
     },
