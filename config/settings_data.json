@@ -199,7 +199,7 @@
           "5c87410f-4467-473c-9a17-d67657659f29": {
             "type": "annuncement",
             "settings": {
-              "content": "<p>Atencion las 24 horas<\/p>",
+              "content": "<p>Atencion las 24 horas <\/p>",
               "link": "https:\/\/api.whatsapp.com\/send?phone=56958923853&text=Hola!%20%0AVengo%20de%20la%20pagina%20web%2C%20estoy%20interesado%20en%20sus%20productos",
               "target_blank": true
             }
