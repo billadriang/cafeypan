@@ -380,8 +380,8 @@
       "whatsapp-button": {
         "type": "whatsapp-button",
         "settings": {
-          "right": 10,
-          "bottom": 10,
+          "right": 26,
+          "bottom": 90,
           "number": 56932083579,
           "message": "Hola\nMe interesan su productos!",
           "enable_page_url": false,
