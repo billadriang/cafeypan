@@ -178,8 +178,8 @@
         "f52cdfe2-3fb9-4d4b-8e1b-edd3df9017e8": {
           "type": "slide",
           "settings": {
-            "image": "shopify:\/\/shop_images\/No_te_pierdas_de_las_mejores_palmeritas.png",
-            "mobile_image": "shopify:\/\/shop_images\/No_te_pierdas_de_las_mejores_palmeritas.png",
+            "image": "shopify:\/\/shop_images\/No_te_pierdas_de_las_mejores_palmeritas_1.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/No_te_pierdas_de_las_mejores_palmeritas_1.jpg",
             "preheading": "",
             "preheading-fs-desktop": 25,
             "preheading-fs-mobile": 26,
@@ -224,7 +224,7 @@
         "enable-dots": true,
         "enable-dots-mobile": true,
         "dots-color": "#e6e6e6",
-        "active-dot-color": "#333",
+        "active-dot-color": "#333333",
         "enable-arrows": true,
         "enable-arrows-mobile": true,
         "button_align": "center"
