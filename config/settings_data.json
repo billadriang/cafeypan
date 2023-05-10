@@ -110,6 +110,7 @@
     "predictive_search_show_vendor": false,
     "predictive_search_show_price": false,
     "currency_code_enabled": true,
+    "back_to_top": false,
     "card_color_scheme": "background-2",
     "collection_card_color_scheme": "background-2",
     "blog_card_color_scheme": "background-2",
