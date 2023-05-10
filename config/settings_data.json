@@ -255,50 +255,17 @@
       },
       "haciendola-footer": {
         "type": "haciendola-footer",
-        "blocks": {
-          "haciendola-footer-0": {
-            "type": "link_list",
-            "settings": {
-              "heading": "Quick links",
-              "menu": "footer",
-              "social_icons": false,
-              "icons_alignment": "left",
-              "hide_box": false,
-              "links_order": 1,
-              "icons_order": 2,
-              "image_order": 3
-            }
-          },
-          "haciendola-footer-1": {
-            "type": "text",
-            "settings": {
-              "heading": "Heading",
-              "subtext": "<p>Share contact information, store details, and brand content with your customers.<\/p>",
-              "social_icons": false,
-              "vertical_alignment": "bottom",
-              "icons_alignment": "left",
-              "hide_box": false,
-              "heading_order": 1,
-              "icon_order": 2,
-              "image_order": 3
-            }
-          }
-        },
-        "block_order": [
-          "haciendola-footer-0",
-          "haciendola-footer-1"
-        ],
         "settings": {
-          "newsletter_enable": true,
+          "newsletter_enable": false,
           "newsletter_heading": "Subscribe to our emails",
-          "show_social": false,
+          "show_social": true,
           "enable_country_selector": true,
-          "enable_language_selector": true,
+          "enable_language_selector": false,
           "payment_enable": true,
           "margin_top": 0,
-          "padding_top": 36,
-          "padding_bottom": 36,
-          "border_bottom": false
+          "padding_top": 0,
+          "padding_bottom": 0,
+          "border_bottom": true
         }
       },
       "h-mega-menu-1": {
