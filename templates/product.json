@@ -27,6 +27,11 @@
           "settings": {
           }
         },
+        "judgeme_preview_badge_product_page_75dfa144": {
+          "type": "shopify:\/\/apps\/judge-me-product-reviews\/blocks\/preview_badge\/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+          }
+        },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
@@ -101,11 +106,6 @@
           "settings": {
             "share_label": "Share"
           }
-        },
-        "judgeme_preview_badge_product_page_75dfa144": {
-          "type": "shopify:\/\/apps\/judge-me-product-reviews\/blocks\/preview_badge\/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {
-          }
         }
       },
       "block_order": [
@@ -141,6 +141,22 @@
         "enable_sacQuantity": true,
         "enable_sacVariants": true,
         "sticky-atc_horizontal-padding": 20
+      }
+    },
+    "judgeme_section_review_widget_6160": {
+      "type": "apps",
+      "blocks": {
+        "judgeme_review_widget_2db87a6b": {
+          "type": "shopify:\/\/apps\/judge-me-product-reviews\/blocks\/review_widget\/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "judgeme_review_widget_2db87a6b"
+      ],
+      "settings": {
+        "include_margins": true
       }
     },
     "judgeme_section_review_widget_c1d4": {
@@ -243,17 +259,17 @@
         "padding_bottom": 28
       }
     },
-    "judgeme_section_review_widget_6160": {
+    "16837602789682c850": {
       "type": "apps",
       "blocks": {
-        "judgeme_review_widget_2db87a6b": {
+        "3bb58d7f-016e-4865-a09d-e4a033b694f5": {
           "type": "shopify:\/\/apps\/judge-me-product-reviews\/blocks\/review_widget\/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
           "settings": {
           }
         }
       },
       "block_order": [
-        "judgeme_review_widget_2db87a6b"
+        "3bb58d7f-016e-4865-a09d-e4a033b694f5"
       ],
       "settings": {
         "include_margins": true
@@ -266,6 +282,7 @@
     "judgeme_section_review_widget_c1d4",
     "image-with-text",
     "multicolumn",
-    "product-recommendations"
+    "product-recommendations",
+    "16837602789682c850"
   ]
 }
