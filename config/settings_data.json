@@ -224,7 +224,7 @@
 
         ],
         "settings": {
-          "transparency": false,
+          "transparency": true,
           "background_gradient": "",
           "header_color": "#000000",
           "submenu_background": "#ffffff",
