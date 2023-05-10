@@ -27,6 +27,7 @@
     },
     "ba9ed13e-2b0f-4619-a208-b8ccfb4b9417": {
       "type": "featured-product",
+      "disabled": true,
       "blocks": {
         "template--18561041137961__ba9ed13e-2b0f-4619-a208-b8ccfb4b9417-1681670668214db2c7-0": {
           "type": "text",
@@ -97,69 +98,142 @@
         "padding_bottom": 36
       }
     },
-    "38a72069-cf26-4e85-9438-300244191792": {
-      "type": "haciendola-hero-image",
+    "3ea91578-2b59-4175-89cc-8b63f11ed275": {
+      "type": "h-slideshow-v2",
       "blocks": {
-        "template--18561041137961__38a72069-cf26-4e85-9438-300244191792-16837415423b208a90-0": {
-          "type": "heading",
+        "template--18561041137961__3ea91578-2b59-4175-89cc-8b63f11ed275-16837491801c426479-0": {
+          "type": "slide",
           "settings": {
-            "heading": "Image banner",
-            "heading_size": "h1"
+            "image": "shopify:\/\/shop_images\/No_te_pierdas_de_las_mejores_palmeritas.png",
+            "mobile_image": "shopify:\/\/shop_images\/No_te_pierdas_de_las_mejores_palmeritas.png",
+            "preheading": "",
+            "preheading-fs-desktop": 25,
+            "preheading-fs-mobile": 26,
+            "preheading-color": "",
+            "heading": "",
+            "heading-fs-desktop": 40,
+            "heading-fs-mobile": 40,
+            "heading-color": "",
+            "subheading": "",
+            "subheading-fs-desktop": 22,
+            "subheading-fs-mobile": 22,
+            "subheading-color": "",
+            "url": "shopify:\/\/collections\/all",
+            "target-blank": false,
+            "global-link": false,
+            "button-content": "Quiero las mias",
+            "button-background": "#fda201",
+            "button-text-color": "#fda201",
+            "button-background-hv": "#4c2929",
+            "button-text-color-hv": "",
+            "button2-link": "shopify:\/\/collections\/all",
+            "button2-target-blank": false,
+            "button2-content": "",
+            "button2-background": "",
+            "button2-text-color": "",
+            "button2-background-hv": "",
+            "button2-text-color-hv": "",
+            "text-align": "center",
+            "text-align-mobile": "left",
+            "arrows-color": ""
           }
         },
-        "template--18561041137961__38a72069-cf26-4e85-9438-300244191792-16837415423b208a90-1": {
-          "type": "text",
+        "753d87c8-0df3-421e-92de-419d8e7977c5": {
+          "type": "slide",
           "settings": {
-            "text": "Give customers details about the banner image(s) or content on the template.",
-            "text_style": "body"
+            "image": "shopify:\/\/shop_images\/No_te_pierdas_de_las_mejores_palmeritas_1.png",
+            "mobile_image": "shopify:\/\/shop_images\/No_te_pierdas_de_las_mejores_palmeritas_1.png",
+            "preheading": "",
+            "preheading-fs-desktop": 25,
+            "preheading-fs-mobile": 26,
+            "preheading-color": "",
+            "heading": "",
+            "heading-fs-desktop": 40,
+            "heading-fs-mobile": 40,
+            "heading-color": "",
+            "subheading": "",
+            "subheading-fs-desktop": 22,
+            "subheading-fs-mobile": 22,
+            "subheading-color": "",
+            "url": "shopify:\/\/collections\/all",
+            "target-blank": false,
+            "global-link": false,
+            "button-content": "Quiero las mias",
+            "button-background": "#fda201",
+            "button-text-color": "#fda201",
+            "button-background-hv": "#4c2929",
+            "button-text-color-hv": "",
+            "button2-link": "shopify:\/\/collections\/all",
+            "button2-target-blank": false,
+            "button2-content": "",
+            "button2-background": "",
+            "button2-text-color": "",
+            "button2-background-hv": "",
+            "button2-text-color-hv": "",
+            "text-align": "center",
+            "text-align-mobile": "left",
+            "arrows-color": ""
           }
         },
-        "template--18561041137961__38a72069-cf26-4e85-9438-300244191792-16837415423b208a90-2": {
-          "type": "buttons",
+        "f52cdfe2-3fb9-4d4b-8e1b-edd3df9017e8": {
+          "type": "slide",
           "settings": {
-            "button_label_1": "Button label",
-            "button_link_1": "",
-            "button_style_secondary_1": false,
-            "button_label_2": "Button label",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "image": "shopify:\/\/shop_images\/No_te_pierdas_de_las_mejores_palmeritas.png",
+            "mobile_image": "shopify:\/\/shop_images\/No_te_pierdas_de_las_mejores_palmeritas.png",
+            "preheading": "",
+            "preheading-fs-desktop": 25,
+            "preheading-fs-mobile": 26,
+            "preheading-color": "",
+            "heading": "",
+            "heading-fs-desktop": 40,
+            "heading-fs-mobile": 40,
+            "heading-color": "",
+            "subheading": "",
+            "subheading-fs-desktop": 22,
+            "subheading-fs-mobile": 22,
+            "subheading-color": "",
+            "url": "shopify:\/\/collections\/all",
+            "target-blank": false,
+            "global-link": false,
+            "button-content": "Quiero las mias",
+            "button-background": "#fda201",
+            "button-text-color": "#fda201",
+            "button-background-hv": "#4c2929",
+            "button-text-color-hv": "",
+            "button2-link": "shopify:\/\/collections\/all",
+            "button2-target-blank": false,
+            "button2-content": "",
+            "button2-background": "",
+            "button2-text-color": "",
+            "button2-background-hv": "",
+            "button2-text-color-hv": "",
+            "text-align": "center",
+            "text-align-mobile": "left",
+            "arrows-color": ""
           }
         }
       },
       "block_order": [
-        "template--18561041137961__38a72069-cf26-4e85-9438-300244191792-16837415423b208a90-0",
-        "template--18561041137961__38a72069-cf26-4e85-9438-300244191792-16837415423b208a90-1",
-        "template--18561041137961__38a72069-cf26-4e85-9438-300244191792-16837415423b208a90-2"
+        "template--18561041137961__3ea91578-2b59-4175-89cc-8b63f11ed275-16837491801c426479-0",
+        "753d87c8-0df3-421e-92de-419d8e7977c5",
+        "f52cdfe2-3fb9-4d4b-8e1b-edd3df9017e8"
       ],
       "settings": {
-        "image_overlay_opacity": 0,
-        "image_height": "medium",
-        "adapt_height_first_image": false,
-        "show_text_box": true,
-        "box_bg_color": "#ffffff",
-        "box_border_color": "#ffffff",
-        "box_border_width": 1,
-        "box_bg_opacity": 0.8,
-        "box_blur_radius": 2,
-        "box_heading_color": "#444444",
-        "box_text_color": "#444444",
-        "primary_bg_color": "#181818",
-        "primary_text_color": "#ffffff",
-        "primary_border_color": "#181818",
-        "secondary_bg_color": "#ffffff",
-        "secondary_text_color": "#444444",
-        "secondary_border_color": "#444444",
-        "desktop_content_position": "middle-center",
-        "desktop_content_alignment": "center",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": true,
-        "show_text_below": true
+        "enable-autoplay": false,
+        "autoplay-duration": 3,
+        "enable-dots": true,
+        "enable-dots-mobile": true,
+        "dots-color": "#e6e6e6",
+        "active-dot-color": "#333",
+        "enable-arrows": true,
+        "enable-arrows-mobile": true,
+        "button_align": "center"
       }
     }
   },
   "order": [
     "f24a4b70-24a3-4d4b-b064-15b7c12d7184",
     "ba9ed13e-2b0f-4619-a208-b8ccfb4b9417",
-    "38a72069-cf26-4e85-9438-300244191792"
+    "3ea91578-2b59-4175-89cc-8b63f11ed275"
   ]
 }
